@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#244e3b">
+    <meta name="description" content="Find out what your device can run. Compare PCs, phones, and Chromebooks with game and app requirements. Free, no downloads, no account.">
+    <title>CanMyDeviceRunIt — Less guessing. More gaming.</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="stylesheet" href="/src/styles.css">
+    <link rel="stylesheet" href="/src/assistant.css">
+    <script type="module" src="/src/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="nav-wrap">
+        <a class="brand" href="/" aria-label="CanMyDeviceRunIt home">
+          <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="5" width="24" height="18" rx="4" stroke="currentColor" stroke-width="2"/><path d="m11 14 3 3 7-7M12 28h8m-4-5v5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span>CanMyDevice<span class="brand-accent">RunIt</span><span class="brand-dot">.</span></span>
+        </a>
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href="/" data-nav="checker">Checker</a>
+          <a href="/games" data-nav="games">Games & apps</a>
+          <a href="/devices" data-nav="devices">Devices</a>
+          <a href="/how-it-works" data-nav="about">How it works</a>
+        </nav>
+        <span class="nav-note"><span class="live-dot"></span> Free. Always a little nerdy.</span>
+      </div>
+    </header>
+    <main id="main" tabindex="-1"><div id="app"></div></main>
+    <footer class="site-footer">
+      <div><a class="footer-brand" href="/">CanMyDeviceRunIt<span>.</span></a><p>Know before you download.</p></div>
+      <p>Built for the device you already have.<br><span>Independent estimates. No downloads or sign-ups.</span></p>
+      <a href="/how-it-works">Our methodology <span aria-hidden="true">↗</span></a>
+    </footer>
+    <dialog id="picker-dialog" class="picker-dialog" aria-labelledby="picker-title"></dialog>
+    <dialog id="custom-dialog" class="custom-dialog" aria-labelledby="custom-title"></dialog>
+    <dialog id="share-dialog" class="share-dialog" aria-labelledby="share-title"></dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <noscript><div class="noscript">Enable JavaScript to use the interactive compatibility checker. Compatibility estimates run in your browser; optional AI questions are sent to Groq through a secure server endpoint.</div></noscript>
+  </body>
+</html>

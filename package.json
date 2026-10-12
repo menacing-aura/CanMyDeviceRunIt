@@ -1,0 +1,23 @@
+{
+  "name": "can-my-device-run-it",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A fast, transparent device and game compatibility checker.",
+  "scripts": {
+    "dev": "node scripts/serve.js",
+    "cf:dev": "npm run build && wrangler pages dev dist",
+    "start": "node scripts/serve.js",
+    "build": "node scripts/build.js",
+    "preview": "node scripts/serve.js --dist",
+    "test": "node --test tests/*.test.js",
+    "check": "node --check src/app.js && node --check src/catalog.js && node --check src/compatibility.js && node --check functions/api/assistant.js && npm test && npm run build"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.0",
+    "wrangler": "^4.149.0"
+  }
+}
