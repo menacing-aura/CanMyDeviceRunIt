@@ -2,7 +2,8 @@
 
 Game artwork and application logos belong to their respective owners. These references identify the software in an independent compatibility guide; they do not imply endorsement. No redistribution license is asserted. Follow each owner's trademark and media-use terms before publishing downloaded artwork.
 
-Local cover binaries are currently committed for Fortnite, Genshin Impact, Stardew Valley, Counter-Strike 2, and VALORANT. Minecraft intentionally uses the built-in text/icon fallback because no `minecraft.jpg` is committed. Roblox, Blender, and Visual Studio Code also use the built-in fallback unless a reviewed local asset is added later. The reference URLs below are provenance notes, not a promise that every remote image is bundled.\n
+Local cover binaries are currently committed for Fortnite, Genshin Impact, Stardew Valley, Counter-Strike 2, and VALORANT. Minecraft intentionally uses the built-in text/icon fallback because no `minecraft.jpg` is committed. Roblox, Blender, and Visual Studio Code also use the built-in fallback unless a reviewed local asset is added later. The reference URLs below are provenance notes, not a promise that every remote image is bundled.
+
 | Item | Artwork URL | Source page / owner |
 | --- | --- | --- |
 | Fortnite | https://cdn2.unrealengine.com/en-fn-og-42-10-c1sx-egs-launcher-blade-2560x1440-2560x1440-319ff81b274e.jpg?h=270&quality=medium&resize=1&w=480 | https://store.epicgames.com/en-US/p/fortnite — Epic Games |
