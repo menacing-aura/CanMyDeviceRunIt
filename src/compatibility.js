@@ -78,6 +78,7 @@ export function evaluateCompatibility(device, game) {
   for (const metric of metrics) {
     let status;
     if (metric.minimum === 0) status = 'pass';
+    else if (!isNumber(metric.minimum) && requirements.allowUnpublishedHardware) status = 'warn';
     else if (metric.key === 'cpu' && requirements.verifiedCpuIds && !requirements.verifiedCpuIds.includes(device.cpuId)) status = 'unknown';
     else if (!isNumber(metric.actual) || !isNumber(metric.minimum)) status = 'unknown';
     else if (metric.actual < metric.minimum) status = 'fail';
