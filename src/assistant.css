@@ -100,3 +100,26 @@
   background:#49f2a6;
   box-shadow:0 0 12px rgba(73,242,166,.75);
 }
+
+
+/* Smooth RUN//AI layout on long prompts and narrow screens */
+.assistant-section,
+.assistant-form,
+.assistant-copy{min-width:0}
+.assistant-answer{
+  max-width:100%;
+  overflow-wrap:anywhere;
+}
+.run-ai-button{
+  transition:transform .22s var(--ease-ui),box-shadow .25s var(--ease-ui),border-color .2s var(--ease-ui);
+}
+.run-ai-button:active{transform:scale(.985)}
+@media(max-width:700px){
+  .assistant-section{padding:22px}
+  .assistant-facts{gap:6px}
+  .assistant-facts span{white-space:normal;line-height:1.35}
+}
+@media(max-width:390px){
+  .assistant-section{padding:17px}
+  .assistant-copy h2{font-size:20px}
+}
