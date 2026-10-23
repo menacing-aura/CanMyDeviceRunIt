@@ -1,6 +1,6 @@
 # CanMyDeviceRunIt
 
-A compatibility checker for the device you already have. Compare specific PCs, Android phones, Macs, and Chromebooks with published game and application requirements; enter your own specifications when a catalog configuration does not match. An optional Groq-powered helper explains a comparison; live web search is not enabled yet.
+A compatibility checker for the device you already have. Compare specific PCs, Android phones, Macs, and Chromebooks with published game and application requirements; enter your own specifications when a catalog configuration does not match, including optional installed OS version and app-runtime architecture when those details affect compatibility. An optional Groq-powered helper explains a comparison; live web search is not enabled yet.
 
 ## Run locally
 
@@ -26,7 +26,11 @@ npm run preview
 npm run check
 ```
 
-`npm test` checks compatibility rules, the assistant endpoint, generated page content, escaping, and server file-access boundaries. `npm run build` creates `dist/`; `npm run preview` serves that build. `npm run check` performs JavaScript syntax checks, tests, and a build.
+`npm test` checks compatibility rules, the assistant endpoint, generated page content, UI/catalog consistency, escaping, and server file-access boundaries. `npm run build` creates `dist/`; `npm run preview` serves that build. `npm run check` performs JavaScript syntax checks, tests, and a build.
+
+## Continuous integration
+
+GitHub Actions runs `npm ci` and `npm run check` on pushes and pull requests using Node.js 22. This catches syntax errors, compatibility regressions, broken generated pages, missing cover assets, and invalid custom-spec form markup before a change lands.
 
 ## Cloudflare Pages
 
