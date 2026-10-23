@@ -70,3 +70,16 @@ test('Linux is exposed in the custom-spec flow with reusable PC hardware', async
   assert.match(app, /device\.type === 'pc'/);
   assert.match(app, /native Linux releases only/);
 });
+
+
+test('smooth collision-safe UI includes mobile stacking and shrink guards', async () => {
+  const styles = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8');
+  const assistant = await readFile(new URL('../src/assistant.css', import.meta.url), 'utf8');
+  assert.match(styles, /SMOOTH \+ COLLISION-SAFE LAYOUT/);
+  assert.match(styles, /@media\(max-width:560px\)/);
+  assert.match(styles, /\.result-main\{\s*flex-direction:column/);
+  assert.match(styles, /\.quick-specs\{\s*grid-template-columns:1fr/);
+  assert.match(styles, /dialog\{[\s\S]*max-height:min\(86vh,860px\)/);
+  assert.match(styles, /overflow-wrap:anywhere/);
+  assert.match(assistant, /Smooth RUN\/\/AI layout/);
+});
