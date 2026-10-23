@@ -534,3 +534,38 @@ input:focus,select:focus,textarea:focus{
   .live-dot,.stamp-orbit{animation:none!important}
   .primary-button::after{display:none}
 }
+
+
+/* Exact device configuration clarity */
+.device-config-line{
+  color:#6fd7e8!important;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  letter-spacing:.15px;
+  margin-top:4px!important;
+  white-space:normal;
+}
+.device-config{
+  color:#72cfe0!important;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:8px!important;
+  line-height:1.55!important;
+  letter-spacing:.15px;
+  margin-top:8px!important;
+}
+.picker-config{
+  color:#70d7e8!important;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  margin:4px 0 2px!important;
+  white-space:normal;
+}
+.device-spec-summary span{
+  overflow-wrap:anywhere;
+}
+.device-spec-summary b{
+  color:#4d6278;
+  font-weight:400;
+  padding:0 3px;
+}
+.device-detail-hero p{
+  max-width:680px;
+}

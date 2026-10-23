@@ -244,3 +244,26 @@ test('published app hardware minimums still fail normally', () => {
   assert.equal(result.status, 'limited');
   assert.equal(check(result, 'ram').status, 'fail');
 });
+
+
+test('device catalog exposes exact configuration labels and corrected regional variants', () => {
+  for (const model of devices) {
+    assert.equal(typeof model.configLabel, 'string', `missing configLabel for ${model.id}`);
+    assert.ok(model.configLabel.trim().length >= 8, `unclear configLabel for ${model.id}`);
+    assert.ok(model.sourceUrl.startsWith('https://'), `missing official source for ${model.id}`);
+  }
+
+  const a14 = device('galaxy-a14-5g');
+  assert.equal(a14.cpu, 'MediaTek Dimensity 700');
+  assert.match(a14.name, /US/);
+  assert.match(a14.sourceUrl, /samsung\.com\/us/);
+
+  const thinkpad = device('thinkpad-e14-gen5-i5');
+  assert.match(thinkpad.factoryOs, /None/);
+  assert.match(thinkpad.osLabel, /installed separately/);
+
+  const a25 = device('galaxy-a25-5g');
+  assert.match(a25.sourceUrl, /128gb/);
+  assert.equal(a25.ram, 6);
+  assert.equal(a25.storage, 128);
+});
