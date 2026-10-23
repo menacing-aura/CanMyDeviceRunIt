@@ -267,3 +267,28 @@ test('device catalog exposes exact configuration labels and corrected regional v
   assert.equal(a25.ram, 6);
   assert.equal(a25.storage, 128);
 });
+
+
+test('native Linux catalog support is explicit and conservative', () => {
+  const linuxDevice = {
+    ...device('acer-nitro-5'),
+    id: 'custom',
+    name: 'Linux test PC',
+    os: 'linux',
+    osLabel: 'Linux',
+    osVersion: undefined,
+  };
+
+  for (const id of ['stardew-valley', 'counter-strike-2', 'blender', 'visual-studio-code', 'obs-studio', 'gimp', 'krita', 'godot', 'android-studio', 'docker-desktop']) {
+    assert.ok(game(id).platforms.includes('linux'), `${id} should expose native Linux support`);
+    assert.ok(game(id).requirements.linux, `${id} should have Linux requirements`);
+  }
+
+  const cs2 = evaluateCompatibility({ ...linuxDevice, freeStorage: 100 }, game('counter-strike-2'));
+  assert.notEqual(cs2.status, 'unsupported');
+  assert.equal(check(cs2, 'platform').status, 'pass');
+
+  const valorant = evaluateCompatibility(linuxDevice, game('valorant'));
+  assert.equal(valorant.status, 'unsupported');
+  assert.equal(valorant.score, null);
+});
