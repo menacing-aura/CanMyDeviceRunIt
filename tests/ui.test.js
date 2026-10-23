@@ -29,3 +29,16 @@ test('saved free storage can be restored for catalog devices', async () => {
   assert.match(app, /storedCatalogDevice/);
   assert.match(app, /stored\.freeStorage <= storedCatalogDevice\.storage/);
 });
+
+
+test('tech HUD theme keeps the dark neon design tokens', async () => {
+  const styles = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8');
+  const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+  assert.match(styles, /--cyan:#00e7ff/);
+  assert.match(styles, /--violet:#8a5cff/);
+  assert.match(styles, /TECH HUD THEME/);
+  assert.match(styles, /body::before/);
+  assert.match(styles, /\.result-card::before/);
+  assert.match(html, /SYSTEM ONLINE \/\/ FREE/);
+  assert.match(html, /theme-color" content="#050816"/);
+});
