@@ -42,3 +42,13 @@ test('tech HUD theme keeps the dark neon design tokens', async () => {
   assert.match(html, /SYSTEM ONLINE \/\/ FREE/);
   assert.match(html, /theme-color" content="#050816"/);
 });
+
+
+test('device UI shows exact configuration labels instead of only marketing names', async () => {
+  const app = await readFile(appUrl, 'utf8');
+  assert.match(app, /device\.configLabel/);
+  assert.match(app, /Catalog configuration/);
+  assert.match(app, /Factory OS/);
+  assert.match(app, /Use this exact profile/);
+  assert.match(app, /item\.configLabel/);
+});
