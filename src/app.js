@@ -113,10 +113,10 @@ function renderHome(isShared = false) {
     </section>
     <section class="assistant-section panel" aria-labelledby="assistant-title">
       <div class="assistant-copy">
-        <span class="eyebrow">RUN//AI · GROQ</span>
+        <span class="eyebrow">RUN//AI · GEMINI + GROQ</span>
         <h2 id="assistant-title">Ask the compatibility core.</h2>
         <p>RUN//AI explains the verified comparison for ${escape(selectedDevice.name)} and ${escape(selectedGame.name)} in plain language. Your rules engine stays the source of truth.</p>
-        <div class="assistant-facts"><span>MODEL // GPT-OSS-120B</span><span>MODE // FACTS ONLY</span><span>WEB // OFF</span></div>
+        <div class="assistant-facts"><span>PRIMARY // GEMINI 3.8 FLASH</span><span>FALLBACK // GROQ</span><span>MODE // FACTS ONLY</span></div>
         <p class="assistant-disclaimer">AI can still be wrong. RUN//AI is told not to invent requirements, FPS, benchmarks, or guarantees. Verify changing requirements with the publisher.</p>
       </div>
       <form id="assistant-form" class="assistant-form">
@@ -128,7 +128,7 @@ function renderHome(isShared = false) {
         </div>
         <textarea id="assistant-question" name="question" rows="3" minlength="4" maxlength="500" required placeholder="Ask about CPU, GPU, RAM, storage, upgrades, or this result…"></textarea>
         <button class="primary-button run-ai-button" type="submit"><span class="run-ai-status-dot" aria-hidden="true"></span> RUN//AI <span aria-hidden="true">↗</span></button>
-        <p class="assistant-privacy">Sent through this site’s Cloudflare Function to Groq. The Groq API key stays server-side and is never included in browser code.</p>
+        <p class="assistant-privacy">Sent through this site’s Cloudflare Function. Gemini is tried first and Groq can act as a fallback. API keys stay server-side and are never included in browser code.</p>
         <div id="assistant-answer" class="assistant-answer" role="status" aria-live="polite"></div>
       </form>
     </section>

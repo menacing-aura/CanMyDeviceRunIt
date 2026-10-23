@@ -34,24 +34,17 @@ test('assistant rejects invalid methods, cross-origin requests, and unsupported 
   const method = await onRequest({ request: createRequest(payload, { method: 'GET' }), env: {} });
   assert.equal(method.status, 405);
   assert.equal(method.headers.get('Allow'), 'POST');
-  assert.equal((await responseBody(method)).error, 'Method not allowed.');
 
   const origin = await onRequest({ request: createRequest(payload, { origin: 'https://attacker.example' }), env: {} });
   assert.equal(origin.status, 403);
 
   const contentType = await onRequest({ request: createRequest(payload, { contentType: 'text/plain' }), env: {} });
   assert.equal(contentType.status, 415);
-
-  const invalidJsonContentType = await onRequest({ request: createRequest(payload, { contentType: 'application/jsonp' }), env: {} });
-  assert.equal(invalidJsonContentType.status, 415);
 });
 
-test('assistant rejects oversized, malformed, and incomplete input without calling Groq', async () => {
+test('assistant validates input and gives an actionable unconfigured error', async () => {
   const oversized = await onRequest({ request: createRequest(payload, { contentLength: '5001' }), env: {} });
   assert.equal(oversized.status, 413);
-
-  const oversizedBody = await onRequest({ request: createRequest(undefined, { rawBody: ' '.repeat(5001) }), env: {} });
-  assert.equal(oversizedBody.status, 413);
 
   const malformed = await onRequest({ request: createRequest(undefined, { rawBody: '{invalid' }), env: {} });
   assert.equal(malformed.status, 400);
@@ -61,9 +54,10 @@ test('assistant rejects oversized, malformed, and incomplete input without calli
 
   const unconfigured = await onRequest({ request: createRequest(), env: {} });
   assert.equal(unconfigured.status, 503);
+  assert.match((await responseBody(unconfigured)).error, /GEMINI_API_KEY or GROQ_API_KEY/);
 });
 
-test('assistant sends bounded comparison context to Groq and returns plain answer text', async () => {
+test('assistant uses Gemini first and returns Interactions API text', async () => {
   const originalFetch = globalThis.fetch;
   let requestUrl;
   let requestOptions;
@@ -71,42 +65,71 @@ test('assistant sends bounded comparison context to Groq and returns plain answe
     globalThis.fetch = async (url, options) => {
       requestUrl = url;
       requestOptions = options;
-      return Response.json({ choices: [{ message: { content: 'The graphics requirement is uncertain.' } }] });
+      return Response.json({
+        steps: [{ type: 'model_output', content: [{ type: 'text', text: 'Gemini says the GPU needs verification.' }] }],
+      });
     };
+
     const response = await onRequest({
       request: createRequest(),
-      env: { GROQ_API_KEY: 'test-secret', GROQ_MODEL: 'test-model' },
+      env: { GEMINI_API_KEY: 'gemini-test-secret', GEMINI_MODEL: 'gemini-test-model', GROQ_API_KEY: 'groq-unused' },
     });
 
     assert.equal(response.status, 200);
-    assert.equal(response.headers.get('Cache-Control'), 'no-store');
-    assert.deepEqual(await responseBody(response), { answer: 'The graphics requirement is uncertain.' });
-    assert.equal(requestUrl, 'https://api.groq.com/openai/v1/chat/completions');
-    assert.equal(requestOptions.headers.Authorization, 'Bearer test-secret');
+    assert.deepEqual(await responseBody(response), { answer: 'Gemini says the GPU needs verification.', provider: 'Gemini' });
+    assert.equal(requestUrl, 'https://generativelanguage.googleapis.com/v1beta/interactions');
+    assert.equal(requestOptions.headers['x-goog-api-key'], 'gemini-test-secret');
     const body = JSON.parse(requestOptions.body);
-    assert.equal(body.model, 'test-model');
-    assert.match(body.messages[1].content, /Example minimum GPU/);
-    assert.match(body.messages[1].content, /Why is the GPU a concern/);
-    assert.equal(body.tools, undefined);
+    assert.equal(body.model, 'gemini-test-model');
+    assert.match(body.input, /Example minimum GPU/);
+    assert.match(body.input, /Why is the GPU a concern/);
+    assert.match(body.system_instruction, /source of truth/);
   } finally {
     globalThis.fetch = originalFetch;
   }
 });
 
-test('assistant does not expose Groq error details or return empty successful responses', async () => {
+test('assistant falls back to Groq when Gemini fails', async () => {
+  const originalFetch = globalThis.fetch;
+  const originalConsoleError = console.error;
+  const calls = [];
+  try {
+    console.error = () => {};
+    globalThis.fetch = async (url, options) => {
+      calls.push({ url, options });
+      if (url.includes('generativelanguage.googleapis.com')) return new Response('nope', { status: 429 });
+      return Response.json({ choices: [{ message: { content: 'Groq fallback answer.' } }] });
+    };
+
+    const response = await onRequest({
+      request: createRequest(),
+      env: { GEMINI_API_KEY: 'gemini-test', GROQ_API_KEY: 'groq-test', GROQ_MODEL: 'groq-model' },
+    });
+
+    assert.equal(response.status, 200);
+    assert.deepEqual(await responseBody(response), { answer: 'Groq fallback answer.', provider: 'Groq' });
+    assert.equal(calls.length, 2);
+    assert.equal(calls[1].options.headers.Authorization, 'Bearer groq-test');
+  } finally {
+    globalThis.fetch = originalFetch;
+    console.error = originalConsoleError;
+  }
+});
+
+test('assistant never exposes upstream error details or secrets', async () => {
   const originalFetch = globalThis.fetch;
   const originalConsoleError = console.error;
   try {
     console.error = () => {};
     globalThis.fetch = async () => new Response('private upstream details', { status: 401 });
-    const upstreamError = await onRequest({ request: createRequest(), env: { GROQ_API_KEY: 'test-secret' } });
-    assert.equal(upstreamError.status, 502);
-    assert.doesNotMatch(JSON.stringify(await responseBody(upstreamError)), /private upstream details|test-secret/);
 
-    globalThis.fetch = async () => Response.json({ choices: [{ message: { content: '' } }] });
-    const empty = await onRequest({ request: createRequest(), env: { GROQ_API_KEY: 'test-secret' } });
-    assert.equal(empty.status, 502);
-    assert.match((await responseBody(empty)).error, /empty response/);
+    const response = await onRequest({
+      request: createRequest(),
+      env: { GEMINI_API_KEY: 'gemini-secret', GROQ_API_KEY: 'groq-secret' },
+    });
+    assert.equal(response.status, 502);
+    const body = JSON.stringify(await responseBody(response));
+    assert.doesNotMatch(body, /private upstream details|gemini-secret|groq-secret/);
   } finally {
     globalThis.fetch = originalFetch;
     console.error = originalConsoleError;

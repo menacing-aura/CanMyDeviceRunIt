@@ -4,3 +4,4 @@ compatibility_date = "2026-10-23"
 
 [vars]
 GROQ_MODEL = "openai/gpt-oss-120b"
+GEMINI_MODEL = "gemini-3.8-flash"\n
