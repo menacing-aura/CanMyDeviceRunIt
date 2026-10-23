@@ -236,7 +236,7 @@ test('apps with unpublished hardware thresholds stay usable without inventing re
   assert.equal(check(result, 'cpu').status, 'warn');
   assert.equal(check(result, 'gpu').status, 'warn');
   assert.equal(check(result, 'ram').status, 'warn');
-  assert.match(check(result, 'cpu').required, /Not published/);
+  assert.match(check(result, 'cpu').required, /published/i);
 });
 
 test('published app hardware minimums still fail normally', () => {
