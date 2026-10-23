@@ -107,9 +107,9 @@ The fit index is an editorial ruleset, **not a benchmark, FPS estimate, probabil
 
 The starter database includes explicit configurations across:
 
-`Windows` · `macOS` · `Android` · `ChromeOS`
+`Windows` · `macOS` · `Linux` · `Android` · `ChromeOS`
 
-Examples include gaming laptops, everyday/business laptops, MacBook Air models, Pixel phones, Galaxy phones, Chromebook Plus systems, and the original Chromebook Duet.
+Examples include gaming laptops, everyday/business laptops, MacBook Air models, Pixel phones, Galaxy phones, Chromebook Plus systems, and the original Chromebook Duet. Linux is available in the custom-spec flow so the same PC hardware can be evaluated with a Linux installation.
 
 ### Software // `20 titles`
 
@@ -243,7 +243,7 @@ Important limitations:
 - Total drive capacity never counts as free storage.
 - Unknown requirements remain unknown.
 - Driver support, firmware, anti-cheat, store availability, thermals, power limits, mods, project complexity, and individual hardware variants can change the real result.
-- Cloud streaming, emulation, browser editions, Linux containers, and older unsupported releases are separate from native compatibility checks.
+- Linux checks cover native Linux releases only. Proton/Wine, cloud streaming, emulation, browser editions, containers, and older unsupported releases are separate from native compatibility checks.
 
 ## `10 // CI GUARDRAILS`
 
