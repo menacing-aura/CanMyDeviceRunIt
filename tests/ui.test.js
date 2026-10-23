@@ -52,3 +52,12 @@ test('device UI shows exact configuration labels instead of only marketing names
   assert.match(app, /Use this exact profile/);
   assert.match(app, /item\.configLabel/);
 });
+
+
+test('RUN AI exposes Groq branding and safe quick prompts', async () => {
+  const app = await readFile(appUrl, 'utf8');
+  assert.match(app, /RUN\/\/AI · GROQ/);
+  assert.match(app, /MODEL \/\/ GPT-OSS-120B/);
+  assert.match(app, /data-ai-prompt=/);
+  assert.match(app, /The Groq API key stays server-side/);
+});

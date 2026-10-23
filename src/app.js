@@ -113,16 +113,22 @@ function renderHome(isShared = false) {
     </section>
     <section class="assistant-section panel" aria-labelledby="assistant-title">
       <div class="assistant-copy">
-        <span class="eyebrow">A LITTLE EXTRA HELP</span>
-        <h2 id="assistant-title">Ask about this match.</h2>
-        <p>Get a plain-language explanation of the comparison for ${escape(selectedDevice.name)} and ${escape(selectedGame.name)}.</p>
-        <p class="assistant-disclaimer">AI can be wrong. This helper does not search the web; verify current requirements with the publisher.</p>
+        <span class="eyebrow">RUN//AI · GROQ</span>
+        <h2 id="assistant-title">Ask the compatibility core.</h2>
+        <p>RUN//AI explains the verified comparison for ${escape(selectedDevice.name)} and ${escape(selectedGame.name)} in plain language. Your rules engine stays the source of truth.</p>
+        <div class="assistant-facts"><span>MODEL // GPT-OSS-120B</span><span>MODE // FACTS ONLY</span><span>WEB // OFF</span></div>
+        <p class="assistant-disclaimer">AI can still be wrong. RUN//AI is told not to invent requirements, FPS, benchmarks, or guarantees. Verify changing requirements with the publisher.</p>
       </div>
       <form id="assistant-form" class="assistant-form">
-        <label class="input-label" for="assistant-question">Your question</label>
-        <textarea id="assistant-question" name="question" rows="3" minlength="4" maxlength="500" required placeholder="Why might this game struggle on my device?"></textarea>
-        <button class="primary-button" type="submit">Ask Groq <span aria-hidden="true">↗</span></button>
-        <p class="assistant-privacy">Your question and these device/game details are sent to Groq through this site’s secure server endpoint.</p>
+        <label class="input-label" for="assistant-question">Ask RUN//AI</label>
+        <div class="assistant-prompts" aria-label="Suggested AI questions">
+          <button type="button" data-ai-prompt="Why did this device get this compatibility score?">Why this score?</button>
+          <button type="button" data-ai-prompt="What should I upgrade first for this game or app?">Upgrade first?</button>
+          <button type="button" data-ai-prompt="What could still block this game or app from installing or running?">What could block it?</button>
+        </div>
+        <textarea id="assistant-question" name="question" rows="3" minlength="4" maxlength="500" required placeholder="Ask about CPU, GPU, RAM, storage, upgrades, or this result…"></textarea>
+        <button class="primary-button run-ai-button" type="submit"><span class="run-ai-status-dot" aria-hidden="true"></span> RUN//AI <span aria-hidden="true">↗</span></button>
+        <p class="assistant-privacy">Sent through this site’s Cloudflare Function to Groq. The Groq API key stays server-side and is never included in browser code.</p>
         <div id="assistant-answer" class="assistant-answer" role="status" aria-live="polite"></div>
       </form>
     </section>
@@ -412,6 +418,15 @@ document.addEventListener('click', event => {
     selectedGame = games.find(game => game.id === quickGame.dataset.gameCheck);
     if (selectedDevice.id !== 'custom') navigate(`/check/${selectedDevice.id}/${selectedGame.id}${Number.isFinite(selectedDevice.freeStorage) ? `?free=${selectedDevice.freeStorage}` : ''}`);
     else navigate('/');
+    return;
+  }
+  const aiPrompt = event.target.closest('[data-ai-prompt]');
+  if (aiPrompt) {
+    const field = $('#assistant-question');
+    if (field) {
+      field.value = aiPrompt.dataset.aiPrompt;
+      field.focus();
+    }
     return;
   }
   const action = event.target.closest('[data-action]')?.dataset.action;
