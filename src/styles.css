@@ -569,3 +569,499 @@ input:focus,select:focus,textarea:focus{
 .device-detail-hero p{
   max-width:680px;
 }
+
+
+/* =========================================================
+   SMOOTH + COLLISION-SAFE LAYOUT
+   Keeps the cyber theme while preventing narrow-screen overlap.
+   ========================================================= */
+:root{
+  --ease-ui:cubic-bezier(.2,.75,.25,1);
+  --ease-soft:cubic-bezier(.22,.61,.36,1);
+}
+html{scroll-padding-top:96px}
+body{overscroll-behavior-y:none}
+#app,
+.panel,
+.game-card,
+.device-card,
+.result-card,
+.selection-button,
+.primary-button,
+.secondary-button,
+.round-button,
+.icon-button,
+.filter-tabs button,
+.picker-item,
+.search-field,
+input,
+select,
+textarea{
+  transition:
+    border-color .2s var(--ease-ui),
+    background-color .2s var(--ease-ui),
+    box-shadow .25s var(--ease-ui),
+    color .2s var(--ease-ui),
+    transform .22s var(--ease-ui),
+    opacity .2s var(--ease-ui);
+}
+
+/* Give flex/grid children permission to shrink instead of colliding. */
+.nav-wrap>*,
+.hero>*,
+.checker-section>*,
+.result-main>*,
+.result-topline>*,
+.result-bottom>*,
+.section-heading>*,
+.bottom-callout>*,
+.library-toolbar>*,
+.detail-hero>*,
+.detail-columns>*,
+.picker-item>*,
+.assistant-section>*{
+  min-width:0;
+}
+.selection-text,
+.result-copy,
+.device-card,
+.game-card-body,
+.picker-item>span,
+.detail-hero>div:last-child{
+  min-width:0;
+}
+.selection-text strong,
+.selection-text small,
+.device-config-line,
+.device-config,
+.picker-config,
+.device-spec-summary span,
+.device-card h3,
+.device-card>p,
+.game-card-title,
+.game-card-body>p,
+.result-copy h2,
+.result-copy p,
+.settings-tip p,
+.detail-hero h1,
+.detail-hero p,
+.spec-list dd,
+.requirement-notes p,
+.assistant-copy p,
+.assistant-answer{
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+
+/* Desktop polish */
+.panel,
+.game-card,
+.device-card,
+.result-card,
+.assistant-section{
+  transform:translateZ(0);
+  backface-visibility:hidden;
+}
+.game-card:hover,
+.device-card:hover{
+  transform:translateY(-3px);
+}
+.selection-button:hover,
+.picker-item:hover{
+  transform:translateY(-1px);
+}
+.primary-button:active,
+.secondary-button:active,
+.round-button:active,
+.icon-button:active{
+  transform:translateY(0) scale(.985);
+}
+.search-field:focus-within,
+.input-label input:focus,
+.input-label select:focus,
+.input-label textarea:focus{
+  box-shadow:0 0 0 3px rgba(0,231,255,.055),0 10px 30px rgba(0,0,0,.12);
+}
+
+/* Safer wrapping for busy rows */
+.result-topline,
+.result-bottom,
+.section-heading,
+.bottom-callout,
+.picker-footer,
+.device-card-specs{
+  flex-wrap:wrap;
+}
+.result-topline{row-gap:8px}
+.result-bottom{row-gap:10px}
+.result-bottom>*{max-width:100%}
+.device-card-specs span{min-width:0}
+.device-card-link{gap:12px}
+.quick-spec strong{white-space:normal}
+.quick-spec{min-width:0}
+.trust-strip>span{white-space:normal}
+.platform-message{align-items:flex-start}
+.platform-message .icon{margin-top:1px}
+.assistant-prompts button{max-width:100%;white-space:normal;text-align:left;line-height:1.35}
+
+/* Dialogs should never escape the viewport. */
+dialog{
+  width:min(720px,calc(100vw - 32px));
+  max-width:calc(100vw - 32px);
+  max-height:min(86vh,860px);
+  overflow:auto;
+  overscroll-behavior:contain;
+}
+#picker-dialog,
+#custom-dialog{
+  scrollbar-gutter:stable;
+}
+.dialog-heading{
+  position:sticky;
+  top:-1px;
+  z-index:4;
+  padding-bottom:12px;
+  background:linear-gradient(180deg,#08101f 75%,rgba(8,16,31,0));
+}
+.picker-results{
+  min-height:0;
+  overflow:auto;
+  overscroll-behavior:contain;
+}
+.form-columns>*{min-width:0}
+
+/* Tables and requirement panels stay readable rather than overflowing. */
+.breakdown,
+.requirements-grid,
+.comparison-table{
+  min-width:0;
+}
+.breakdown{
+  overflow-x:auto;
+  overscroll-behavior-x:contain;
+  scrollbar-width:thin;
+}
+.comparison-table{width:100%}
+
+/* Tablet: stack the checker before it becomes squeezed. */
+@media(max-width:980px){
+  .checker-section{
+    grid-template-columns:1fr;
+    gap:20px;
+  }
+  .checker-form,
+  .result-card{
+    min-height:0;
+  }
+  .result-card{height:auto}
+  .assistant-section{
+    grid-template-columns:1fr;
+    gap:24px;
+  }
+  .assistant-form .primary-button{justify-self:start}
+}
+
+/* Narrow tablet / large phone */
+@media(max-width:700px){
+  #app{padding-left:18px;padding-right:18px}
+  .nav-wrap{
+    padding-left:18px;
+    padding-right:18px;
+  }
+  .main-nav{
+    overflow-x:auto;
+    justify-content:flex-start;
+    gap:8px;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+    padding-bottom:2px;
+  }
+  .main-nav::-webkit-scrollbar{display:none}
+  .main-nav a{
+    flex:0 0 auto;
+    padding:0 8px;
+  }
+
+  .hero{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:18px;
+  }
+  .hero-stamp{
+    justify-self:end;
+    margin:0;
+    max-width:100%;
+  }
+
+  .result-main{
+    align-items:flex-start;
+  }
+  .quick-specs{
+    grid-template-columns:1fr;
+    gap:0;
+    padding:0;
+  }
+  .quick-spec{
+    border-left:0;
+    border-top:1px solid rgba(104,168,255,.14);
+    padding:13px 0;
+    flex-direction:row;
+    justify-content:space-between;
+    align-items:center;
+    gap:14px;
+  }
+  .quick-spec:first-child{border-top:0}
+  .quick-spec>span,
+  .quick-spec strong{
+    min-width:0;
+  }
+
+  .library-toolbar .filter-tabs,
+  .picker-filters{
+    width:100%;
+    overflow-x:auto;
+    justify-content:flex-start;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+  }
+  .library-toolbar .filter-tabs::-webkit-scrollbar,
+  .picker-filters::-webkit-scrollbar{display:none}
+  .filter-tabs button{flex:0 0 auto}
+
+  .section-heading{
+    align-items:flex-start;
+  }
+  .subtle-link{
+    max-width:none;
+  }
+
+  .device-grid,
+  .game-grid{
+    grid-template-columns:1fr;
+  }
+  .device-card-specs{
+    gap:10px 16px;
+  }
+  .device-card-link{
+    align-items:flex-start;
+  }
+
+  .form-columns{
+    grid-template-columns:1fr;
+  }
+  .free-space-field{
+    align-items:flex-start;
+  }
+
+  .detail-hero,
+  .detail-columns{
+    min-width:0;
+  }
+  .requirements-grid{
+    grid-template-columns:1fr;
+  }
+
+  .assistant-prompts{
+    display:grid;
+    grid-template-columns:1fr;
+  }
+  .assistant-prompts button{width:100%}
+}
+
+/* Phones: fully stack collision-prone rows. */
+@media(max-width:560px){
+  .site-header{position:relative}
+  .brand{max-width:100%;white-space:normal}
+  .brand span{overflow-wrap:anywhere}
+
+  h1,
+  .hero h1,
+  .page-intro h1,
+  .detail-hero h1{
+    font-size:clamp(34px,11vw,44px);
+    line-height:1.02;
+    letter-spacing:-1.7px;
+  }
+
+  .hero-stamp{display:none}
+
+  .checker-form,
+  .result-card,
+  .assistant-section,
+  .spec-panel,
+  .device-card{
+    padding-left:18px;
+    padding-right:18px;
+  }
+
+  .section-caption{
+    align-items:flex-start;
+    flex-wrap:wrap;
+    row-gap:8px;
+  }
+  .field-heading{
+    align-items:flex-start;
+    flex-wrap:wrap;
+  }
+  .field-heading .text-button{
+    margin-left:0;
+    width:100%;
+    justify-content:flex-start;
+  }
+
+  .selection-button{
+    align-items:flex-start;
+  }
+  .selection-button>.icon{
+    margin-top:10px;
+  }
+
+  .free-space-field{
+    flex-direction:column;
+    gap:8px;
+  }
+  .free-space-field>div{
+    width:100%;
+  }
+  .free-space-field input{
+    width:100%;
+    min-width:0;
+  }
+
+  .result-topline{
+    align-items:flex-start;
+  }
+  .result-main{
+    flex-direction:column;
+    gap:22px;
+  }
+  .score-wrap{
+    align-self:center;
+    margin-right:0;
+  }
+  .result-copy h2,
+  .result-copy p{
+    max-width:none;
+  }
+  .score-ring{
+    width:108px;
+    height:108px;
+  }
+  .result-bottom{
+    align-items:stretch;
+    flex-direction:column;
+  }
+  .result-detail-button,
+  .share-button{
+    width:100%;
+    justify-content:space-between;
+    min-height:38px;
+  }
+  .settings-tip{
+    align-items:flex-start;
+  }
+
+  .trust-strip{
+    display:grid;
+    grid-template-columns:1fr;
+    justify-items:start;
+    gap:11px;
+  }
+  .trust-strip>a{width:auto}
+
+  .bottom-callout{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    align-items:start;
+  }
+  .bottom-callout>a{
+    grid-column:1/-1;
+    margin-left:0;
+  }
+
+  .site-footer{
+    align-items:flex-start;
+  }
+
+  dialog{
+    width:calc(100vw - 20px);
+    max-width:calc(100vw - 20px);
+    max-height:90vh;
+    padding:18px;
+    border-radius:14px;
+  }
+  .dialog-heading{
+    gap:12px;
+  }
+  .dialog-heading h2{
+    font-size:22px;
+  }
+  .picker-item{
+    align-items:flex-start;
+    gap:10px;
+    padding:11px 9px;
+  }
+  .picker-item>.icon{
+    margin-top:8px;
+  }
+  .picker-footer{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .comparison-table{
+    min-width:680px;
+  }
+}
+
+/* Tiny phones */
+@media(max-width:390px){
+  #app{padding-left:14px;padding-right:14px}
+  .nav-wrap{padding-left:14px;padding-right:14px}
+  .checker-form,
+  .result-card,
+  .assistant-section,
+  .spec-panel,
+  .device-card{
+    padding-left:15px;
+    padding-right:15px;
+  }
+  .selection-icon{
+    width:38px;
+    height:38px;
+  }
+  .selection-text strong{font-size:13px}
+  .device-spec-summary{align-items:flex-start}
+  .estimate-tag{display:none}
+  .score-ring{
+    width:98px;
+    height:98px;
+  }
+  .primary-button{
+    width:100%;
+  }
+}
+
+/* Keep accessibility intact when motion is disabled. */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  #app,
+  .panel,
+  .game-card,
+  .device-card,
+  .result-card,
+  .selection-button,
+  .primary-button,
+  .secondary-button,
+  .round-button,
+  .icon-button,
+  .filter-tabs button,
+  .picker-item,
+  .search-field,
+  input,
+  select,
+  textarea{
+    transition:none!important;
+    transform:none!important;
+  }
+}
