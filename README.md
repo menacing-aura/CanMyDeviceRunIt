@@ -1,69 +1,292 @@
-# CanMyDeviceRunIt
+<div align="center">
 
-A compatibility checker for the device you already have. Compare specific PCs, Android phones, Macs, and Chromebooks with published game and application requirements; enter your own specifications when a catalog configuration does not match, including optional installed OS version and app-runtime architecture when those details affect compatibility. An optional Groq-powered helper explains a comparison; live web search is not enabled yet.
+# ⚡ CAN MY DEVICE RUN IT // COMPATIBILITY CONSOLE
 
-## Run locally
+**Hardware intelligence for the device you already own.**
 
-Use Node.js 22 or later and install the project dependencies:
+[![LIVE // ONLINE](https://img.shields.io/badge/LIVE-ONLINE-00E7FF?style=for-the-badge&logo=cloudflare&logoColor=white)](https://canmydevicerunit.pages.dev)
+[![CI](https://github.com/menacing-aura/CanMyDeviceRunIt/actions/workflows/ci.yml/badge.svg)](https://github.com/menacing-aura/CanMyDeviceRunIt/actions/workflows/ci.yml)
+![Node 22+](https://img.shields.io/badge/Node.js-22%2B-101827?style=for-the-badge&logo=nodedotjs&logoColor=5FA04E)
+![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages-101827?style=for-the-badge&logo=cloudflare&logoColor=F38020)
+![JavaScript](https://img.shields.io/badge/JavaScript-ESM-101827?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
 
-```sh
+### [▶ LAUNCH THE LIVE SITE](https://canmydevicerunit.pages.dev)
+
+`https://canmydevicerunit.pages.dev`
+
+</div>
+
+---
+
+```text
+╭──────────────────────────────────────────────────────╮
+│  SYS://CAN-MY-DEVICE-RUN-IT                         │
+│                                                      │
+│  STATUS ............... ONLINE                       │
+│  DEVICES .............. 19                           │
+│  GAMES ................ 8                            │
+│  APPS ................. 12                           │
+│  DEPLOY TARGET ........ CLOUDFLARE PAGES             │
+│  RUNTIME .............. NODE 22+                     │
+│  MODE ................. NO ACCOUNT / NO SCANNER      │
+╰──────────────────────────────────────────────────────╯
+```
+
+## `01 // WHAT IT DOES`
+
+**CanMyDeviceRunIt** compares a real device configuration against published game and application requirements.
+
+Pick a listed PC, Mac, Android phone, or Chromebook, or enter your own specs. The compatibility engine checks platform support, CPU/GPU capability tiers, RAM, architecture, OS version when known, and available storage when supplied.
+
+The result is deliberately transparent: **good hardware fit, minimum specs met, below requirements, unsupported platform, or more information needed**.
+
+> No fake FPS predictions. No magic hardware scan. No account required.
+
+## `02 // LIVE DEPLOYMENT`
+
+| Channel | Status |
+| --- | --- |
+| **Production** | 🟢 Online |
+| **URL** | **[canmydevicerunit.pages.dev](https://canmydevicerunit.pages.dev)** |
+| **Host** | Cloudflare Pages |
+| **Production branch** | `main` |
+| **Build command** | `npm run build` |
+| **Output** | `dist/` |
+| **Runtime** | Node.js 22+ |
+| **CI** | GitHub Actions |
+
+Every push to `main` is checked by GitHub Actions and is connected to the Cloudflare Pages production deployment.
+
+```text
+GITHUB PUSH
+    │
+    ▼
+┌───────────────┐
+│  CI / VERIFY  │  npm ci + npm run check
+└───────┬───────┘
+        │ green
+        ▼
+┌───────────────────┐
+│ CLOUDFLARE PAGES  │
+└─────────┬─────────┘
+          │
+          ▼
+   GLOBAL EDGE DEPLOY
+          │
+          ▼
+ canmydevicerunit.pages.dev
+```
+
+## `03 // COMPATIBILITY CORE`
+
+The checker evaluates:
+
+- **Operating system / native platform support**
+- **CPU capability**
+- **GPU capability**
+- **RAM**
+- **CPU architecture**
+- **App runtime architecture** where relevant
+- **OS version** when supplied
+- **Available storage** when supplied
+- **Recommended hardware headroom**
+- **Alternative compatible games/apps**
+
+The fit index is an editorial ruleset, **not a benchmark, FPS estimate, probability, or performance guarantee**.
+
+| Fit index | Meaning |
+| ---: | --- |
+| `95` | Checked hardware has headroom |
+| `75` | Checked minimum hardware is met |
+| `35` | At least one checked requirement fails |
+| `—` | Unsupported or not enough verified data |
+
+## `04 // CURRENT CATALOG`
+
+### Devices // `19`
+
+The starter database includes explicit configurations across:
+
+`Windows` · `macOS` · `Android` · `ChromeOS`
+
+Examples include gaming laptops, everyday/business laptops, MacBook Air models, Pixel phones, Galaxy phones, Chromebook Plus systems, and the original Chromebook Duet.
+
+### Software // `20 titles`
+
+**8 games**
+- Fortnite
+- Minecraft: Java Edition
+- Minecraft: Bedrock Edition
+- Roblox
+- Genshin Impact
+- Stardew Valley
+- Counter-Strike 2
+- VALORANT
+
+**12 apps**
+- Blender
+- Visual Studio Code
+- Discord
+- Spotify
+- OBS Studio
+- GIMP
+- Krita
+- Godot Engine
+- Android Studio
+- Docker Desktop
+- Adobe Photoshop
+- Adobe Premiere
+
+Catalog facts and source links live in `src/catalog.js`. The current source snapshot is reviewed manually rather than silently auto-updating.
+
+## `05 // ARCHITECTURE`
+
+```mermaid
+flowchart LR
+    U[Browser] --> UI[Cyber UI]
+    UI --> C[Compatibility Engine]
+    C --> D[Local Catalog]
+    C --> R[Fit Result]
+    R --> U
+
+    UI -. optional question .-> F[Cloudflare Pages Function]
+    F -. server-side .-> G[Groq API]
+```
+
+### Core files
+
+| Path | Purpose |
+| --- | --- |
+| `src/app.js` | UI, navigation, dialogs, state, rendering |
+| `src/styles.css` | Main cyber-tech interface |
+| `src/catalog.js` | Devices, games, apps, requirements, sources |
+| `src/compatibility.js` | Compatibility rules and alternatives |
+| `functions/api/assistant.js` | Optional server-side AI explanation endpoint |
+| `scripts/build.js` | Static production build and generated routes |
+| `tests/` | Compatibility, UI, endpoint, build, and security tests |
+
+## `06 // PRIVACY MODE`
+
+The project is designed to work without collecting an account profile.
+
+- No user account required
+- No hardware scanner
+- No analytics database in this project
+- Selected/custom device details stay in browser storage
+- Custom specs are not placed in share URLs
+- Compatibility calculations run in the browser
+
+If the optional AI helper is used, the question plus relevant comparison context is sent through the Cloudflare Pages Function to the configured Groq endpoint. The API key remains server-side.
+
+## `07 // LOCAL BOOT SEQUENCE`
+
+Requires **Node.js 22+**.
+
+```bash
+git clone https://github.com/menacing-aura/CanMyDeviceRunIt.git
+cd CanMyDeviceRunIt
 npm ci
 npm run dev
 ```
 
-Open http://localhost:5173. Set `PORT` to change the port. This lightweight development server serves the static app; to run the Pages Function locally, copy `.dev.vars.example` to `.dev.vars`, put your Groq API key in `.dev.vars`, then run:
+Open:
 
-```sh
-npm run cf:dev
+```text
+http://localhost:5173
 ```
 
-Wrangler serves the app and `/api/assistant` at http://localhost:8788. `.dev.vars` is ignored by Git. Never put the key in browser code, `wrangler.toml`, or a committed file.
+### Full verification
 
-```sh
-npm test
-npm run build
-npm run preview
+```bash
 npm run check
 ```
 
-`npm test` checks compatibility rules, the assistant endpoint, generated page content, UI/catalog consistency, escaping, and server file-access boundaries. `npm run build` creates `dist/`; `npm run preview` serves that build. `npm run check` performs JavaScript syntax checks, tests, and a build.
+That runs syntax checks, the test suite, and a production build.
 
-## Continuous integration
+Useful commands:
 
-GitHub Actions runs `npm ci` and `npm run check` on pushes and pull requests using Node.js 22. This catches syntax errors, compatibility regressions, broken generated pages, missing cover assets, and invalid custom-spec form markup before a change lands.
+```bash
+npm test
+npm run build
+npm run preview
+npm run cf:dev
+```
 
-## Cloudflare Pages
+For local Pages Function testing, copy `.dev.vars.example` to `.dev.vars` and add your own `GROQ_API_KEY`. Never commit secrets.
 
-The site is static HTML/CSS/JS plus one server-side Pages Function at `/api/assistant`. The Groq key stays in Cloudflare and is never sent to the browser. Hosting, Cloudflare plan limits, and Groq usage/pricing are subject to their current terms; no hosting service or deployment has been created by this repository setup.
+## `08 // CLOUDFLARE CONFIG`
 
-Connect this repository to Cloudflare Pages and configure:
+The production project is already deployed to Cloudflare Pages.
 
 | Setting | Value |
 | --- | --- |
+| Project name | `canmydevicerunit` |
+| Production URL | `https://canmydevicerunit.pages.dev` |
 | Framework preset | None |
+| Production branch | `main` |
 | Build command | `npm run build` |
-| Build output directory | `dist` |
-| Node.js version | 22 or later |
+| Output directory | `dist` |
 | Root directory | `/` |
+| Node | `22+` |
 
-The root-level `functions/` directory is intentionally outside `dist/`; Cloudflare Pages discovers it during deployment. `wrangler.toml` sets the output directory and runtime compatibility date. In the Pages project dashboard, add `GROQ_API_KEY` as an encrypted secret for both production and preview environments, then redeploy. Do not configure this key as a public build variable. `GROQ_MODEL` is a non-secret model setting and defaults to `openai/gpt-oss-120b`.
+The root `functions/` directory contains the Pages Function for `/api/assistant`. If the optional helper is enabled, configure `GROQ_API_KEY` as an encrypted Cloudflare secret, never as browser code or a committed variable.
 
-Before enabling the helper on a public site, create a Cloudflare rate-limiting rule for `POST /api/assistant` (for example, 8 requests per IP per minute with a one-minute block). This endpoint uses your Groq account and the rate-limiting features available to your Cloudflare plan; without a rule, visitors can consume your account's API quota.
+`GROQ_MODEL` is non-secret configuration and defaults to `openai/gpt-oss-120b`.
 
-After you know the public address, optionally set the build environment variable `SITE_URL` to its origin, such as `https://your-project.pages.dev`, and rebuild. Use only the origin, with no path, query, credentials, or fragment. The build then includes canonical URLs and `sitemap.xml`. Without `SITE_URL`, no domain is invented and `robots.txt` omits a sitemap declaration.
+## `09 // DATA INTEGRITY`
 
-Every catalog game, device, and device/game comparison has a generated HTML page with a unique title, description, and readable initial content. The browser application adds interactive selection and custom specifications. `404.html` provides the hosting fallback for unknown paths. `public/_headers` is copied for hosts that support Cloudflare/Netlify-style header files; other hosts need equivalent header configuration. The local server serves only recognized routes and public JS, CSS, and media files.
+Requirements are sourced from publisher/manufacturer pages and stored as explicit catalog snapshots.
 
-## Data and estimate limits
+Important limitations:
 
-`src/catalog.js` contains explicit hardware configurations, supported platforms, requirements, publisher/manufacturer source links, notes, and the review date. `src/compatibility.js` compares those records. Update both the source notes and review date when refreshing facts, and rerun the tests.
+- CPU/GPU scores are broad editorial capability tiers, not measured benchmarks.
+- Total drive capacity never counts as free storage.
+- Unknown requirements remain unknown.
+- Driver support, firmware, anti-cheat, store availability, thermals, power limits, mods, project complexity, and individual hardware variants can change the real result.
+- Cloud streaming, emulation, browser editions, Linux containers, and older unsupported releases are separate from native compatibility checks.
 
-Processor and graphics tiers are editorial comparisons, not measured benchmarks. Ratings and the fit index are not FPS predictions, probabilities, or installation guarantees. Unknown requirements stay unknown. OS versions, drivers, graphics features, firmware/anti-cheat restrictions, store availability, and individual hardware variants still need verification. Mobile heat limits, mods, large game worlds, rendering workloads, and extensions can change performance substantially.
+## `10 // CI GUARDRAILS`
 
-Total storage capacity is never treated as available space. Only an entered free-space value can pass the storage check. Unsupported native platforms are identified explicitly; cloud streaming, emulation, browser editions, Linux containers, and older software releases are outside these comparisons.
+GitHub Actions runs on pushes and pull requests using Node.js 22.
 
-## Privacy and assets
+The verification pipeline checks:
 
-Custom device specifications and remembered selections are stored in the current browser. When you submit an AI question, the question and current device/game/comparison details are sent through the Cloudflare Pages Function to Groq; this app does not store the prompt or response. The AI helper does not currently have live web search and may be inaccurate. Cloudflare and Groq may process request data under their own terms. There are no accounts, hardware scans, analytics, or app database. Clear this site's browser data to remove saved values. Opening an external source link is subject to that site's privacy practices.
+```text
+JS SYNTAX
+   ├── APP
+   ├── CATALOG
+   ├── COMPATIBILITY ENGINE
+   └── ASSISTANT FUNCTION
 
-Artwork and trademarks remain the property of their respective owners. See `public/assets/ASSETS.md` for image provenance. CanMyDeviceRunIt is an independent guide and does not imply publisher or manufacturer endorsement.
+TEST SUITE
+   ├── COMPATIBILITY RULES
+   ├── STORAGE SAFETY
+   ├── PLATFORM / ARCHITECTURE LOGIC
+   ├── CATALOG SOURCES
+   ├── UI CONSISTENCY
+   ├── BUILD OUTPUT
+   └── ENDPOINT / FILE ACCESS SAFETY
+
+PRODUCTION BUILD
+   └── dist/
+```
+
+## `11 // ASSETS + TRADEMARKS`
+
+Artwork and trademarks remain the property of their respective owners. Image/source notes are documented in `public/assets/ASSETS.md`.
+
+CanMyDeviceRunIt is an independent compatibility guide and does not imply endorsement by hardware manufacturers, game publishers, software vendors, Cloudflare, or Groq.
+
+---
+
+<div align="center">
+
+### `SYS://READY`
+
+**Pick a device. Pick a game or app. Get a clearer answer before the download starts.**
+
+[![OPEN LIVE CONSOLE](https://img.shields.io/badge/OPEN_LIVE_CONSOLE-00E7FF?style=for-the-badge&logo=cloudflare&logoColor=white)](https://canmydevicerunit.pages.dev)
+
+<sub>Built with JavaScript · Cloudflare Pages · GitHub Actions · unreasonable amounts of cyan</sub>
+
+</div>
