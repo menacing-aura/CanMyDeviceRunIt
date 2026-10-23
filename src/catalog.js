@@ -21,6 +21,18 @@ const sources = {
   valorant: 'https://support.riotgames.com/en-us/valorant/support-tools/minimum-recommended-pc-specs',
   blender: 'https://www.blender.org/download/requirements/',
   vscode: 'https://code.visualstudio.com/Docs/supporting/requirements',
+  discord: 'https://support.discord.com/hc/en-us/articles/213491697-What-are-the-OS-system-requirements-for-Discord',
+  spotify: 'https://support.spotify.com/us/article/supported-devices-for-spotify/',
+  obs: 'https://obsproject.com/download',
+  obsRequirements: 'https://obsproject.com/kb/system-requirements',
+  gimp: 'https://www.gimp.org/downloads/',
+  krita: 'https://krita.org/en/download/',
+  godot: 'https://docs.godotengine.org/en/stable/about/system_requirements.html',
+  androidStudio: 'https://developer.android.com/studio/install',
+  dockerWindows: 'https://docs.docker.com/desktop/setup/install/windows-install/',
+  dockerMac: 'https://docs.docker.com/desktop/setup/install/mac-install/',
+  photoshop: 'https://helpx.adobe.com/photoshop/desktop/get-started/technical-requirements-installation/adobe-photoshop-on-desktop-technical-requirements.html',
+  premiere: 'https://helpx.adobe.com/premiere/desktop/get-started/technical-requirements/adobe-premiere-pro-technical-requirements.html',
 };
 
 export const devices = [
@@ -326,6 +338,164 @@ export const games = [
       }),
       macos: requirement(1, 0.5, 1, 0, '1.6 GHz or faster processor', 'No dedicated GPU requirement published', 'A macOS version receiving Apple security updates', sources.vscode, {
         notes: ['Check the current supported macOS releases before installing.', 'A Chromebook can use the browser editor or Linux environment, which this native-app check does not assess.'],
+      }),
+    },
+  },
+  {
+    id: 'discord', name: 'Discord', shortName: 'D', category: 'app', genre: 'Communication', color: '#5865f2',
+    description: 'Voice, video, text, and community chat. This check covers the current native desktop client.',
+    platforms: ['windows', 'macos'], sourceUrl: sources.discord, sourceUrls: [sources.discord],
+    requirements: {
+      windows: requirement(null, null, null, null, 'No minimum CPU published', 'No minimum GPU published', 'Windows 10 or newer', sources.discord, {
+        minimumOsVersion: '10', allowUnpublishedHardware: true,
+        notes: ['Discord publishes an OS minimum but not a fixed desktop CPU, RAM, or GPU threshold.', '32-bit Windows is no longer supported; use a currently supported 64-bit installation.'],
+      }),
+      macos: requirement(null, null, null, null, 'No minimum CPU published', 'No minimum GPU published', 'macOS 12 Monterey or newer', sources.discord, {
+        minimumOsVersion: '12', allowUnpublishedHardware: true,
+        notes: ['Discord publishes an OS minimum but not a fixed desktop CPU, RAM, or GPU threshold.'],
+      }),
+    },
+  },
+  {
+    id: 'spotify', name: 'Spotify', shortName: 'SP', category: 'app', genre: 'Music', color: '#1db954',
+    description: 'Stream music and podcasts with the current native desktop or Android app.',
+    platforms: ['windows', 'macos', 'android'], sourceUrl: sources.spotify, sourceUrls: [sources.spotify],
+    requirements: {
+      windows: requirement(null, null, null, null, 'No minimum CPU published', 'No minimum GPU published', 'Windows 10 64-bit or Windows 11', sources.spotify, {
+        minimumOsVersion: '10', architectures: ['x64'], allowUnpublishedHardware: true,
+        notes: ['Spotify publishes supported operating systems, not fixed desktop CPU, RAM, or GPU minimums.'],
+      }),
+      macos: requirement(null, null, null, null, 'No minimum CPU published', 'No minimum GPU published', 'macOS 13 or newer', sources.spotify, {
+        minimumOsVersion: '13', allowUnpublishedHardware: true,
+        notes: ['Spotify publishes supported operating systems, not fixed desktop CPU, RAM, or GPU minimums.'],
+      }),
+      android: requirement(null, null, null, null, 'No minimum CPU published', 'No minimum GPU published', 'Android 7.0 or newer', sources.spotify, {
+        minimumOsVersion: '7.0', allowUnpublishedHardware: true,
+        notes: ['App-store availability and DRM support can still vary by device or region.'],
+      }),
+    },
+  },
+  {
+    id: 'obs-studio', name: 'OBS Studio', shortName: 'OBS', category: 'app', genre: 'Streaming & recording', color: '#5b5b5b',
+    description: 'Record and livestream your screen, games, camera, and audio. Encoding settings can dramatically change the load.',
+    platforms: ['windows', 'macos'], sourceUrl: sources.obs, sourceUrls: [sources.obs, sources.obsRequirements],
+    requirements: {
+      windows: requirement(null, null, null, 2, 'CPU requirement depends on encoder and scene complexity', 'DirectX 10.1 compatible GPU', 'Windows 10 or Windows 11', sources.obsRequirements, {
+        minimumOsVersion: '10', allowUnpublishedHardware: true, recommended: { cpuScore: 4, gpuScore: 4, ram: 8 },
+        notes: ['OBS does not publish a fixed RAM or CPU minimum because recording and streaming loads vary.', 'Use the Auto-Configuration Wizard for your target resolution, FPS, and encoder.'],
+      }),
+      macos: requirement(null, null, 1, 2, 'Intel or Apple Silicon CPU', 'OpenGL 3.3 compatible GPU', 'macOS 13 or newer for the current download', sources.obs, {
+        minimumOsVersion: '13', allowUnpublishedHardware: true, recommended: { cpuScore: 4, gpuScore: 4, ram: 8 },
+        notes: ['The current OBS download requires macOS 13 or newer.', 'Streaming capability depends on encoder, resolution, FPS, and scene complexity.'],
+      }),
+    },
+  },
+  {
+    id: 'gimp', name: 'GIMP', shortName: 'G', category: 'app', genre: 'Image editing', color: '#6f665b',
+    description: 'Free image editing and graphics software. Large layered images need more memory than the installer itself.',
+    platforms: ['windows', 'macos'], sourceUrl: sources.gimp, sourceUrls: [sources.gimp],
+    requirements: {
+      windows: requirement(null, null, null, null, 'No fixed CPU minimum published', 'No fixed GPU minimum published', 'Windows 10 version 1903 or newer', sources.gimp, {
+        minimumOsVersion: '10', architectures: ['x64', 'arm64'], allowUnpublishedHardware: true,
+        notes: ['GIMP 3.2 provides 64-bit Windows builds for x86_64 and ARM64.', 'The Microsoft Store build has a newer Windows requirement than the standalone installer.'],
+      }),
+      macos: requirement(null, null, null, null, 'Intel or Apple Silicon', 'No fixed GPU minimum published', 'macOS 11 Big Sur or newer', sources.gimp, {
+        minimumOsVersion: '11', architectures: ['x64', 'arm64'], allowUnpublishedHardware: true,
+        notes: ['GIMP provides separate Intel and Apple Silicon builds.', 'Complex documents and many layers can require substantial memory even though no fixed RAM minimum is published.'],
+      }),
+    },
+  },
+  {
+    id: 'krita', name: 'Krita', shortName: 'K', category: 'app', genre: 'Digital painting', color: '#7c4dff',
+    description: 'Digital painting, illustration, and animation with tablet support.',
+    platforms: ['windows', 'macos'], sourceUrl: sources.krita, sourceUrls: [sources.krita],
+    requirements: {
+      windows: requirement(4, null, null, 2, 'No fixed CPU minimum published', 'OpenGL 3.0 or Direct3D 11', 'Windows 8.1 or newer', sources.krita, {
+        minimumOsVersion: '8.1', allowUnpublishedHardware: true, recommended: { ram: 16, gpuScore: 3 },
+        notes: ['Krita requires 4 GB RAM and recommends 16 GB.', 'The Microsoft Store version requires Windows 10 or newer.'],
+      }),
+      macos: requirement(4, null, null, 2, 'No fixed CPU minimum published', 'OpenGL 3.0 or newer', 'macOS 10.15 or newer', sources.krita, {
+        minimumOsVersion: '10.15', allowUnpublishedHardware: true, recommended: { ram: 16, gpuScore: 3 },
+        notes: ['Krita requires 4 GB RAM and recommends 16 GB.', 'Heavy brushes, animation, and large canvases can use substantially more memory.'],
+      }),
+    },
+  },
+  {
+    id: 'godot', name: 'Godot Engine', shortName: 'GD', category: 'app', genre: 'Game development', color: '#478cbf',
+    description: 'Build 2D and 3D games with the Godot editor. Renderer choice changes the graphics requirement.',
+    platforms: ['windows', 'macos', 'android'], sourceUrl: sources.godot, sourceUrls: [sources.godot],
+    requirements: {
+      windows: requirement(4, 0.2, 1, 2, 'x86 CPU with SSE2/SSE4.2 or ARMv8 CPU', 'OpenGL 3.3 compatibility renderer or Vulkan 1.0', 'Windows 10 or newer', sources.godot, {
+        minimumOsVersion: '10', recommended: { ram: 8, cpuScore: 4, gpuScore: 4 },
+        notes: ['The 200 MB figure covers the editor executable, project files, and cache; export templates require additional space.', 'Forward+ and Mobile renderers need Vulkan support.'],
+      }),
+      macos: requirement(4, 0.2, 1, 2, 'x86_64 or Apple Silicon CPU', 'OpenGL 3.3 compatibility renderer or supported modern renderer', 'macOS 10.13+ for Compatibility; newer macOS for other renderers', sources.godot, {
+        minimumOsVersion: '10.13', recommended: { ram: 8, cpuScore: 4, gpuScore: 4 },
+        notes: ['Renderer and CPU architecture can raise the practical macOS requirement.', 'Export templates require additional storage.'],
+      }),
+      android: requirement(3, 0.2, 1, 2, '32-bit or 64-bit ARM/x86 SoC', 'OpenGL ES 3.0 or Vulkan 1.0 capable GPU', 'Android 7.0+ for Compatibility renderer', sources.godot, {
+        minimumOsVersion: '7.0', recommended: { ram: 6, cpuScore: 4, gpuScore: 4 },
+        notes: ['Forward+ and Mobile renderers require Android 9.0 or newer and Vulkan support.', 'The Android editor is more comfortable on larger screens and stronger hardware.'],
+      }),
+    },
+  },
+  {
+    id: 'android-studio', name: 'Android Studio', shortName: 'AS', category: 'app', genre: 'App development', color: '#3ddc84',
+    description: 'Google’s IDE for Android development. The emulator is much more demanding than the editor alone.',
+    platforms: ['windows', 'macos'], sourceUrl: sources.androidStudio, sourceUrls: [sources.androidStudio],
+    requirements: {
+      windows: requirement(8, 8, 3, 0, '2017+ CPU microarchitecture with hardware virtualization', 'Integrated graphics is sufficient for the IDE', '64-bit Windows 10 or newer', sources.androidStudio, {
+        minimumOsVersion: '10', architectures: ['x64'], recommended: { ram: 32, cpuScore: 5 },
+        notes: ['Windows ARM CPUs are not currently supported.', 'Android Studio plus Emulator needs at least 16 GB RAM and 16 GB free space; Google recommends 32 GB RAM and an SSD with 32 GB or more free.'],
+      }),
+      macos: requirement(8, 8, 3, 0, 'Apple M1 or 6th-generation Intel Core or newer', 'Integrated graphics is sufficient', 'macOS 12 or newer', sources.androidStudio, {
+        minimumOsVersion: '12', architectures: ['x64', 'arm64'], recommended: { ram: 32, cpuScore: 5 },
+        notes: ['Android Studio plus Emulator needs at least 16 GB RAM and 16 GB free space.', 'Google is phasing out Intel Mac support; latest Apple Silicon is recommended.'],
+      }),
+    },
+  },
+  {
+    id: 'docker-desktop', name: 'Docker Desktop', shortName: 'DK', category: 'app', genre: 'Development tools', color: '#2496ed',
+    description: 'Run Linux containers locally with Docker Desktop. Virtualization and OS features are mandatory.',
+    platforms: ['windows', 'macos'], sourceUrl: sources.dockerWindows, sourceUrls: [sources.dockerWindows, sources.dockerMac],
+    requirements: {
+      windows: requirement(8, null, null, 0, 'Hardware virtualization must be enabled', 'No dedicated GPU requirement', 'Supported 64-bit Windows 10/11 release', sources.dockerWindows, {
+        minimumOsVersion: '10', allowUnpublishedHardware: true,
+        notes: ['Docker Desktop requires hardware virtualization and a supported backend such as WSL 2.', 'Windows container support has edition-specific requirements; Linux containers work on more editions.'],
+      }),
+      macos: requirement(4, null, 1, 0, 'Supported Intel or Apple Silicon Mac', 'No dedicated GPU requirement', 'Current or one of the two previous major macOS releases', sources.dockerMac, {
+        minimumOsVersion: '14', architectures: ['x64', 'arm64'], allowUnpublishedHardware: true,
+        notes: ['Docker supports the current and two previous major macOS releases.', 'Rosetta 2 is recommended for some optional amd64 command-line tools on Apple Silicon.'],
+      }),
+    },
+  },
+  {
+    id: 'adobe-photoshop', name: 'Adobe Photoshop', shortName: 'PS', category: 'app', genre: 'Image editing', color: '#31a8ff',
+    description: 'Professional image editing and compositing. Scratch-disk and large-document workloads benefit from much more free storage.',
+    platforms: ['windows', 'macos'], sourceUrl: sources.photoshop, sourceUrls: [sources.photoshop],
+    requirements: {
+      windows: requirement(8, 10, 3, 3, 'Multicore Intel, AMD, or Windows-on-ARM processor; AVX2/SSE 4.2 on x86', 'DirectX 12 feature level 12_0 GPU with at least 1.5 GB VRAM', 'Supported Windows 10/11 release', sources.photoshop, {
+        minimumOsVersion: '10', architectures: ['x64', 'arm64'], recommended: { ram: 16, cpuScore: 4, gpuScore: 4 },
+        notes: ['Adobe recommends 16 GB RAM or more and substantially more free disk space for scratch disks.', 'Current supported Windows builds are narrower than the broad Windows 10/11 family; verify the exact build.'],
+      }),
+      macos: requirement(8, 10, 3, 3, 'Multicore Intel or Apple Silicon processor', 'Metal-capable GPU with at least 1.5 GB graphics memory', 'macOS 14, 15, or 26 for current Photoshop 27.x', sources.photoshop, {
+        minimumOsVersion: '14', architectures: ['x64', 'arm64'], recommended: { ram: 16, cpuScore: 5, gpuScore: 4 },
+        notes: ['Adobe recommends Apple Silicon and 16 GB RAM or more.', 'Photoshop may require much more working disk space for large documents and scratch files.'],
+      }),
+    },
+  },
+  {
+    id: 'adobe-premiere', name: 'Adobe Premiere', shortName: 'PR', category: 'app', genre: 'Video editing', color: '#9999ff',
+    description: 'Professional video editing. The published minimum is aimed at HD; 4K and effects-heavy work need considerably more hardware.',
+    platforms: ['windows', 'macos'], sourceUrl: sources.premiere, sourceUrls: [sources.premiere],
+    requirements: {
+      windows: requirement(8, 8, 3, 4, 'Intel 6th Gen+ or AMD Ryzen 1000+ with AVX2; Snapdragon X on ARM', 'Supported GPU with at least 4 GB graphics memory', 'Windows 11 version 24H2', sources.premiere, {
+        minimumOsVersion: '11', architectures: ['x64', 'arm64'], recommended: { ram: 32, cpuScore: 5, gpuScore: 6 },
+        notes: ['The current Premiere 26.x minimum is for HD editing.', 'Adobe recommends 16 GB RAM for HD, 32 GB or more for 4K, and 8 GB GPU memory.'],
+      }),
+      macos: requirement(8, 8, 4, 4, 'Intel 8th Gen+ with AVX2 or supported Apple Silicon', 'Apple Silicon unified memory or supported Intel/AMD graphics', 'macOS 15 Sequoia or newer for current Premiere 26.x', sources.premiere, {
+        minimumOsVersion: '15', architectures: ['x64', 'arm64'], recommended: { ram: 16, cpuScore: 5, gpuScore: 5 },
+        notes: ['The current minimum is aimed at HD editing.', 'Adobe recommends Apple Silicon with at least 16 GB unified memory for stronger workflows.'],
       }),
     },
   },
