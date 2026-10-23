@@ -206,3 +206,41 @@ test('expanded starter catalog keeps broad device coverage', () => {
   assert.ok(new Set(devices.map(item => item.os)).has('android'));
   assert.ok(new Set(devices.map(item => item.os)).has('chromeos'));
 });
+
+
+test('expanded app catalog includes popular creative, dev, and communication tools', () => {
+  const requiredIds = [
+    'discord',
+    'spotify',
+    'obs-studio',
+    'gimp',
+    'krita',
+    'godot',
+    'android-studio',
+    'docker-desktop',
+    'adobe-photoshop',
+    'adobe-premiere',
+  ];
+  const apps = games.filter(item => item.category === 'app');
+  assert.ok(apps.length >= 12);
+  for (const id of requiredIds) {
+    assert.ok(game(id), `missing expanded app: ${id}`);
+    assert.equal(game(id).category, 'app');
+  }
+});
+
+test('apps with unpublished hardware thresholds stay usable without inventing requirements', () => {
+  const result = evaluateCompatibility(device('acer-nitro-5'), game('discord'));
+  assert.equal(result.status, 'playable');
+  assert.equal(result.score, 75);
+  assert.equal(check(result, 'cpu').status, 'warn');
+  assert.equal(check(result, 'gpu').status, 'warn');
+  assert.equal(check(result, 'ram').status, 'warn');
+  assert.match(check(result, 'cpu').required, /Not published/);
+});
+
+test('published app hardware minimums still fail normally', () => {
+  const result = evaluateCompatibility({ ...device('dell-inspiron-15'), ram: 4 }, game('android-studio'));
+  assert.equal(result.status, 'limited');
+  assert.equal(check(result, 'ram').status, 'fail');
+});
