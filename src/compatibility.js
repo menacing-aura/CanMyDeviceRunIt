@@ -1,6 +1,6 @@
 import { games } from './catalog.js';
 
-const platformNames = { windows: 'Windows', macos: 'macOS', android: 'Android', chromeos: 'ChromeOS' };
+const platformNames = { windows: 'Windows', macos: 'macOS', linux: 'Linux', android: 'Android', chromeos: 'ChromeOS' };
 const isNumber = value => typeof value === 'number' && Number.isFinite(value) && value >= 0;
 const gb = value => isNumber(value) ? `${value} GB` : 'Not provided';
 const list = value => Array.isArray(value) ? value : value ? [String(value)] : [];
@@ -43,7 +43,7 @@ export function evaluateCompatibility(device, game) {
       settings: 'Choose a supported platform or an alternative below.',
       checks: [{ key: 'platform', label: 'Operating system', status: 'fail', device: device.osLabel || platform,
         required: game.platforms.map(os => platformNames[os] || os).join(', ') }],
-      notes: ['This check covers direct installation. Browser versions, cloud streaming, emulation and Linux containers are separate options.'],
+      notes: ['This check covers direct installation. Browser versions, cloud streaming, emulation, Proton/Wine, and containers are separate options.'],
     };
   }
 
