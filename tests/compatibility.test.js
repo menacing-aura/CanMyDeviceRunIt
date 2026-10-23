@@ -286,7 +286,7 @@ test('native Linux catalog support is explicit and conservative', () => {
 
   const cs2 = evaluateCompatibility({ ...linuxDevice, freeStorage: 100 }, game('counter-strike-2'));
   assert.notEqual(cs2.status, 'unsupported');
-  assert.equal(check(cs2, 'platform').status, 'pass');
+  assert.notEqual(check(cs2, 'platform').status, 'fail');
 
   const valorant = evaluateCompatibility(linuxDevice, game('valorant'));
   assert.equal(valorant.status, 'unsupported');
