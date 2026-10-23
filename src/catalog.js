@@ -1,9 +1,9 @@
-// Source snapshots reviewed 2026-10-12. GB means decimal gigabytes.
+// Source snapshots reviewed 2026-10-22. GB means decimal gigabytes.
 // cpuScore/gpuScore are editorial capability tiers, not measured benchmarks.
 // Tiers are compared only within a platform: 1 = basic, 2 = entry,
 // 3 = mainstream, 4 = capable, 5 = performance, 6 = high performance.
 // Model configurations are explicit; storage is TOTAL capacity, never free space.
-export const reviewedAt = '2026-10-12';
+export const reviewedAt = '2026-10-22';
 
 const sources = {
   fortnite: 'https://www.epicgames.com/help/c-34254770/c-37371353/a16548002?lang=en-US',
@@ -87,6 +87,77 @@ export const devices = [
     sourceUrl: 'https://psref.lenovo.com/syspool/Sys/PDF/IdeaPad/IdeaPad_Duet_Chromebook/IdeaPad_Duet_Chromebook_Spec.pdf',
     sourceUrls: ['https://psref.lenovo.com/syspool/Sys/PDF/IdeaPad/IdeaPad_Duet_Chromebook/IdeaPad_Duet_Chromebook_Spec.pdf', 'https://www.chromium.org/chromium-os/developer-information-for-chrome-os-devices/'],
     notes: ['Original IdeaPad Duet, 4 GB RAM and 128 GB eMMC option.', 'Chromium identifies this model’s chip as MT8183. Its 64-bit CPU does not confirm that the installed Android runtime is 64-bit.', 'Android apps need Google Play enabled; school or work policies may block installation.'],
+  },
+  {
+    id: 'macbook-air-m3-13', name: 'MacBook Air M3 13-inch', brand: 'Apple', type: 'pc', os: 'macos', osLabel: 'macOS',
+    cpu: 'Apple M3 · 8-core CPU', gpu: 'Apple M3 · 8-core GPU', ram: 16, storage: 256,
+    cpuScore: 5, gpuScore: 5, gpuType: 'integrated', architecture: 'arm64',
+    sourceUrl: 'https://support.apple.com/en-us/118551',
+    notes: ['2024 13-inch M3 configuration with 16 GB unified memory and 256 GB SSD.', 'Apple also offered other memory, GPU-core and storage options; use custom specs if yours differs.'],
+  },
+  {
+    id: 'thinkpad-e14-gen5-i5', name: 'Lenovo ThinkPad E14 Gen 5', brand: 'Lenovo', type: 'pc', os: 'windows', osLabel: 'Windows 11',
+    cpu: 'Intel Core i5-1335U', gpu: 'Intel Iris Xe Graphics', ram: 16, storage: 512,
+    cpuScore: 4, gpuScore: 3, gpuType: 'integrated', architecture: 'x64',
+    sourceUrl: 'https://psref.lenovo.com/Detail/ThinkPad/ThinkPad_E14_Gen_5_Intel?M=21JK0005RI',
+    notes: ['Model 21JK0005RI: 16 GB DDR4 (8 GB soldered + 8 GB SO-DIMM) and 512 GB PCIe 4.0 SSD.', 'ThinkPad E14 Gen 5 configurations vary; match the processor, memory and graphics to your unit.'],
+  },
+  {
+    id: 'hp-victus-15-fa1319tx', name: 'HP Victus 15', brand: 'HP', type: 'pc', os: 'windows', osLabel: 'Windows 11 Home',
+    cpu: 'Intel Core i5-13420H', gpu: 'NVIDIA RTX 4050 Laptop · 6 GB', ram: 16, storage: 512,
+    cpuScore: 4, gpuScore: 5, gpuType: 'discrete', architecture: 'x64',
+    sourceUrl: 'https://support.hp.com/us-en/product/product-specs/victus-by-hp-15.6-inch-gaming-laptop-15-fa1000/model/2102139941?sku=9X5F3PA',
+    notes: ['15-fa1319TX / 9X5F3PA configuration: 16 GB DDR4, 512 GB PCIe 4.0 SSD and RTX 4050 Laptop GPU.', 'This model also has Intel integrated graphics; compatibility scoring uses the discrete RTX 4050.'],
+  },
+  {
+    id: 'dell-g15-5530-rtx4060', name: 'Dell G15 5530', brand: 'Dell', type: 'pc', os: 'windows', osLabel: 'Windows 11 Home',
+    cpu: 'Intel Core i7-13650HX', gpu: 'NVIDIA RTX 4060 Laptop · 8 GB', ram: 16, storage: 512,
+    cpuScore: 5, gpuScore: 6, gpuType: 'discrete', architecture: 'x64',
+    sourceUrl: 'https://tienda.dell.com/gt/dell-g15-5530-15-6in-spa-i7-13650hx-16g-512g-rtx4060-w11h-pu',
+    notes: ['G15 5530 configuration with Core i7-13650HX, 16 GB DDR5, 512 GB SSD and RTX 4060 Laptop GPU.', 'Dell sells multiple G15 5530 configurations; verify the GPU and storage before using this profile.'],
+  },
+  {
+    id: 'pixel-8', name: 'Google Pixel 8', brand: 'Google', type: 'phone', os: 'android', osLabel: 'Android',
+    cpu: 'Google Tensor G3', gpu: 'Tensor G3 integrated graphics', ram: 8, storage: 128,
+    cpuScore: 5, gpuScore: 4, gpuType: 'integrated', architecture: 'arm64',
+    sourceUrl: 'https://store.google.com/us/product/pixel_8_specs?hl=en-US',
+    notes: ['128 GB model with 8 GB LPDDR5X RAM.', 'Check the installed Android version and available storage before installing large games.'],
+  },
+  {
+    id: 'pixel-9a', name: 'Google Pixel 9a', brand: 'Google', type: 'phone', os: 'android', osLabel: 'Android',
+    cpu: 'Google Tensor G4', gpu: 'Tensor G4 integrated graphics', ram: 8, storage: 128,
+    cpuScore: 5, gpuScore: 5, gpuType: 'integrated', architecture: 'arm64',
+    sourceUrl: 'https://store.google.com/product/pixel_9a_specs?hl=en-US',
+    notes: ['128 GB model with 8 GB RAM and Google Tensor G4.', 'Sustained game performance can still change with temperature, battery state and game updates.'],
+  },
+  {
+    id: 'galaxy-s24', name: 'Samsung Galaxy S24', brand: 'Samsung', type: 'phone', os: 'android', osLabel: 'Android 14 or newer',
+    cpu: 'Snapdragon 8 Gen 3 for Galaxy', gpu: 'Snapdragon integrated graphics', ram: 8, storage: 128,
+    cpuScore: 6, gpuScore: 6, gpuType: 'integrated', architecture: 'arm64',
+    sourceUrl: 'https://images.samsung.com/is/content/samsung/assets/us/2401/business/mobile/phones/galaxy/Galaxy_S24_Series_B2B_Spec_Sheet.pdf',
+    notes: ['US Galaxy S24 configuration: Snapdragon 8 Gen 3 for Galaxy, 8 GB RAM and 128 GB storage.', 'Galaxy S24 processor variants differ by region; use custom specs if your device is an Exynos model.'],
+  },
+  {
+    id: 'galaxy-a25-5g', name: 'Samsung Galaxy A25 5G', brand: 'Samsung', type: 'phone', os: 'android', osLabel: 'Android 14 or newer',
+    cpu: 'Samsung Exynos 1280', gpu: 'Exynos 1280 integrated graphics', ram: 6, storage: 128,
+    cpuScore: 3, gpuScore: 3, gpuType: 'integrated', architecture: 'arm64',
+    sourceUrl: 'https://www.samsung.com/ae/smartphones/galaxy-a/galaxy-a25-5g-blue-black-256gb-sm-a256ezkhmea/',
+    sourceUrls: ['https://www.samsung.com/ae/smartphones/galaxy-a/galaxy-a25-5g-blue-black-256gb-sm-a256ezkhmea/', 'https://image-us.samsung.com/SamsungUS/samsungbusiness/mobile/phones/galaxy-a/HHP449741_A25_5G_SpecSheet.pdf'],
+    notes: ['6 GB RAM / 128 GB storage configuration with Exynos 1280.', 'Samsung offers other memory and storage variants by region; this profile does not count microSD capacity as free internal storage.'],
+  },
+  {
+    id: 'acer-chromebook-plus-515', name: 'Acer Chromebook Plus 515', brand: 'Acer', type: 'chromebook', os: 'chromeos', osLabel: 'ChromeOS',
+    cpu: 'Intel Core i3-1215U', cpuId: 'intel-core-i3-1215u', gpu: 'Intel UHD Graphics', ram: 8, storage: 128,
+    cpuScore: 3, gpuScore: 2, gpuType: 'integrated', architecture: 'x64',
+    sourceUrl: 'https://www.acer.com/us-en/chromebooks/acer-chromebook-plus-515-cb515-2h-cb515-2ht/pdp/NX.KPBAA.001',
+    notes: ['CB515-2H-31NY configuration: 8 GB LPDDR5X and 128 GB flash storage.', 'Android-app compatibility depends on the ChromeOS app runtime and Google Play availability, not only the x64 CPU.'],
+  },
+  {
+    id: 'lenovo-flex-5i-chromebook-plus', name: 'Lenovo Flex 5i Chromebook Plus', brand: 'Lenovo', type: 'chromebook', os: 'chromeos', osLabel: 'ChromeOS',
+    cpu: 'Intel Core i3-1315U', cpuId: 'intel-core-i3-1315u', gpu: 'Intel UHD Graphics', ram: 8, storage: 128,
+    cpuScore: 3, gpuScore: 2, gpuType: 'integrated', architecture: 'x64',
+    sourceUrl: 'https://www.lenovo.com/us/en/p/laptops/ideapad/ideapad-flex-series/ideapad-flex-5i-chromebook-plus-gen-7-%2814-inch-intel%29/83ek0000ux',
+    notes: ['83EK0000UX configuration: Core i3-1315U, 8 GB LPDDR4X and 128 GB eMMC.', 'Google Play and the Android runtime still need verification for Android-game checks.'],
   },
 ];
 

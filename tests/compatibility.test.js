@@ -184,3 +184,25 @@ test('the entire catalog never reports a high score alongside a failing check', 
     }
   }
 });
+
+
+test('expanded starter catalog keeps broad device coverage', () => {
+  const requiredIds = [
+    'macbook-air-m3-13',
+    'thinkpad-e14-gen5-i5',
+    'hp-victus-15-fa1319tx',
+    'dell-g15-5530-rtx4060',
+    'pixel-8',
+    'pixel-9a',
+    'galaxy-s24',
+    'galaxy-a25-5g',
+    'acer-chromebook-plus-515',
+    'lenovo-flex-5i-chromebook-plus',
+  ];
+  assert.ok(devices.length >= 19);
+  for (const id of requiredIds) assert.ok(device(id), `missing expanded catalog device: ${id}`);
+  assert.ok(new Set(devices.map(item => item.os)).has('windows'));
+  assert.ok(new Set(devices.map(item => item.os)).has('macos'));
+  assert.ok(new Set(devices.map(item => item.os)).has('android'));
+  assert.ok(new Set(devices.map(item => item.os)).has('chromeos'));
+});
