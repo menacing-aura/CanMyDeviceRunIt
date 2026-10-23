@@ -61,3 +61,12 @@ test('RUN AI exposes Groq branding and safe quick prompts', async () => {
   assert.match(app, /data-ai-prompt=/);
   assert.match(app, /The Groq API key stays server-side/);
 });
+
+
+test('Linux is exposed in the custom-spec flow with reusable PC hardware', async () => {
+  const app = await readFile(appUrl, 'utf8');
+  assert.match(app, /linux: 'Linux'/);
+  assert.match(app, /selectedOs === 'linux'/);
+  assert.match(app, /device\.type === 'pc'/);
+  assert.match(app, /native Linux releases only/);
+});

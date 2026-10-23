@@ -32,6 +32,7 @@ const sources = {
   androidStudio: 'https://developer.android.com/studio/install',
   dockerWindows: 'https://docs.docker.com/desktop/setup/install/windows-install/',
   dockerMac: 'https://docs.docker.com/desktop/setup/install/mac-install/',
+  dockerLinux: 'https://docs.docker.com/desktop/setup/install/linux/',
   photoshop: 'https://helpx.adobe.com/photoshop/desktop/get-started/technical-requirements-installation/adobe-photoshop-on-desktop-technical-requirements.html',
   premiere: 'https://helpx.adobe.com/premiere/desktop/get-started/technical-requirements/adobe-premiere-pro-technical-requirements.html',
 };
@@ -294,7 +295,7 @@ export const games = [
   {
     id: 'stardew-valley', name: 'Stardew Valley', shortName: 'SV', category: 'game', genre: 'Farming & life sim', color: '#e0a846',
     description: 'Turn an overgrown plot into your own farm. A lighter option for a quieter gaming session.',
-    platforms: ['windows', 'macos', 'android'], sourceUrl: sources.stardew, sourceUrls: [sources.stardew, sources.stardewAndroid],
+    platforms: ['windows', 'macos', 'linux', 'android'], sourceUrl: sources.stardew, sourceUrls: [sources.stardew, sources.stardewAndroid],
     requirements: {
       windows: requirement(2, 0.5, 1, 1, '2 GHz processor', '256 MB graphics memory; Shader Model 3.0+', 'Windows 10 or newer for the Steam client', sources.stardew, {
         minimumOsVersion: '10',
@@ -304,6 +305,9 @@ export const games = [
         minimumOsVersion: '10.10',
         notes: ['The publisher lists Intel-era requirements. On Apple Silicon, Rosetta may be needed for the distributed build.'],
       }),
+      linux: requirement(2, 0.5, 1, 1, '2 GHz processor', '256 MB graphics memory; OpenGL 2', 'Publisher lists Ubuntu 12.04 LTS minimum', sources.stardew, {
+        notes: ['The game page still lists an old Ubuntu baseline. Your current Steam client may require a newer Linux distribution.', 'Native SteamOS/Linux support is published; Proton is not required for this profile.'],
+      }),
       android: requirement(null, null, null, null, 'Check Google Play device compatibility', 'Check Google Play device compatibility', 'Check the current Google Play listing', sources.stardewAndroid, {
         notes: ['A native Android edition is available. Current per-device requirements must be checked in Google Play.'],
       }),
@@ -312,11 +316,15 @@ export const games = [
   {
     id: 'counter-strike-2', name: 'Counter-Strike 2', shortName: 'CS2', category: 'game', genre: 'Tactical shooter', color: '#d39e42',
     description: 'Precision team competition on the Source 2 engine. Minimum specifications do not guarantee competitive performance.',
-    platforms: ['windows'], sourceUrl: sources.cs2, sourceUrls: [sources.cs2],
+    platforms: ['windows', 'linux'], sourceUrl: sources.cs2, sourceUrls: [sources.cs2],
     requirements: {
       windows: requirement(8, 85, 2, 2, '4 hardware threads; Core i5-750 or better', '1 GB graphics memory; DirectX 11 and Shader Model 5.0', 'Windows 10 or newer', sources.cs2, {
         minimumOsVersion: '10',
         notes: ['Valve publishes minimum specifications, not an FPS guarantee.', 'Use a lower resolution and low graphics as a starting point on integrated GPUs.'],
+      }),
+      linux: requirement(8, 85, 2, 2, '4 hardware threads; Core i5-750 or better', 'AMD GCN+ or NVIDIA Kepler+ with current Vulkan drivers', 'Ubuntu 20.04', sources.cs2, {
+        architectures: ['x64'],
+        notes: ['Valve publishes native SteamOS/Linux requirements for Counter-Strike 2.', 'VK_EXT_graphics_pipeline_library support is highly recommended and current Vulkan drivers matter.'],
       }),
     },
   },
@@ -335,7 +343,7 @@ export const games = [
   {
     id: 'blender', name: 'Blender', shortName: 'B', category: 'app', genre: '3D creation', color: '#e99555',
     description: 'Model, animate, and render in 3D. Scene complexity matters as much as the launch requirements.',
-    platforms: ['windows', 'macos'], sourceUrl: sources.blender, sourceUrls: [sources.blender],
+    platforms: ['windows', 'macos', 'linux'], sourceUrl: sources.blender, sourceUrls: [sources.blender],
     requirements: {
       windows: requirement(8, null, 3, 3, '4 CPU cores with SSE 4.2', '2 GB VRAM; supported OpenGL 4.3 / Vulkan 1.3 GPU', 'Windows 8.1 64-bit or newer; Windows 11 recommended', sources.blender, {
         minimumOsVersion: '8.1',
@@ -347,18 +355,26 @@ export const games = [
         architectures: ['arm64'], recommended: { ram: 32, cpuScore: 5, gpuScore: 5 },
         notes: ['Blender 5.0+ requires Apple Silicon; Intel Macs need an older supported release.', '32 GB RAM is recommended. Complex scenes can exceed available unified memory.'],
       }),
+      linux: requirement(8, null, 3, 3, '4 CPU cores with SSE 4.2', '2 GB VRAM; supported OpenGL 4.3 / Vulkan 1.3 GPU', '64-bit Linux distribution with glibc 2.28 or newer', sources.blender, {
+        architectures: ['x64'], recommended: { ram: 32, cpuScore: 5, gpuScore: 6 },
+        notes: ['Blender publishes native Linux requirements. Check the exact supported NVIDIA, AMD, or Intel GPU generation and current graphics drivers.', 'Cycles GPU rendering has additional requirements.'],
+      }),
     },
   },
   {
     id: 'visual-studio-code', name: 'Visual Studio Code', shortName: '</>', category: 'app', genre: 'Code editor', color: '#51a5db',
     description: 'A lightweight editor for everyday coding. Extensions, compilers, and containers have their own requirements.',
-    platforms: ['windows', 'macos'], sourceUrl: sources.vscode, sourceUrls: [sources.vscode],
+    platforms: ['windows', 'macos', 'linux'], sourceUrl: sources.vscode, sourceUrls: [sources.vscode],
     requirements: {
       windows: requirement(1, 0.5, 1, 0, '1.6 GHz or faster processor', 'No dedicated GPU requirement published', 'Supported 64-bit Windows client', sources.vscode, {
         notes: ['Microsoft lists these as recommended hardware for the editor itself.', 'Development runtimes, extensions and project files require additional resources.'],
       }),
       macos: requirement(1, 0.5, 1, 0, '1.6 GHz or faster processor', 'No dedicated GPU requirement published', 'A macOS version receiving Apple security updates', sources.vscode, {
         notes: ['Check the current supported macOS releases before installing.', 'A Chromebook can use the browser editor or Linux environment, which this native-app check does not assess.'],
+      }),
+      linux: requirement(1, 0.5, 1, 0, '1.6 GHz or faster processor', 'No dedicated GPU requirement published', 'Ubuntu Desktop 20.04 / Debian 10 / RHEL 8 / Fedora 36 baseline; glibc 2.28+', sources.vscode, {
+        architectures: ['x64', 'arm64'],
+        notes: ['VS Code requires GLIBC 2.28+ and GLIBCXX 3.4.25+ on Linux.', 'Extensions, compilers, containers, and language runtimes can require considerably more resources.'],
       }),
     },
   },
@@ -399,7 +415,7 @@ export const games = [
   {
     id: 'obs-studio', name: 'OBS Studio', shortName: 'OBS', category: 'app', genre: 'Streaming & recording', color: '#5b5b5b',
     description: 'Record and livestream your screen, games, camera, and audio. Encoding settings can dramatically change the load.',
-    platforms: ['windows', 'macos'], sourceUrl: sources.obs, sourceUrls: [sources.obs, sources.obsRequirements],
+    platforms: ['windows', 'macos', 'linux'], sourceUrl: sources.obs, sourceUrls: [sources.obs, sources.obsRequirements],
     requirements: {
       windows: requirement(null, null, null, 2, 'CPU requirement depends on encoder and scene complexity', 'DirectX 10.1 compatible GPU', 'Windows 10 or Windows 11', sources.obsRequirements, {
         minimumOsVersion: '10', allowUnpublishedHardware: true, recommended: { cpuScore: 4, gpuScore: 4, ram: 8 },
@@ -409,12 +425,16 @@ export const games = [
         minimumOsVersion: '13', allowUnpublishedHardware: true, recommended: { cpuScore: 4, gpuScore: 4, ram: 8 },
         notes: ['The current OBS download requires macOS 13 or newer.', 'Streaming capability depends on encoder, resolution, FPS, and scene complexity.'],
       }),
+      linux: requirement(null, null, null, 2, 'CPU requirement depends on encoder and scene complexity', 'OpenGL 3.3 compatible GPU', 'Linux with X11 or Wayland; official Flatpak, plus Ubuntu 24.04+ PPA', sources.obsRequirements, {
+        allowUnpublishedHardware: true, recommended: { cpuScore: 4, gpuScore: 4, ram: 8 },
+        notes: ['OBS publishes native Linux support but no fixed CPU or RAM minimum because streaming workloads vary.', 'The official site recommends Flatpak on general Linux distributions and offers a PPA for Ubuntu 24.04 or newer.'],
+      }),
     },
   },
   {
     id: 'gimp', name: 'GIMP', shortName: 'G', category: 'app', genre: 'Image editing', color: '#6f665b',
     description: 'Free image editing and graphics software. Large layered images need more memory than the installer itself.',
-    platforms: ['windows', 'macos'], sourceUrl: sources.gimp, sourceUrls: [sources.gimp],
+    platforms: ['windows', 'macos', 'linux'], sourceUrl: sources.gimp, sourceUrls: [sources.gimp],
     requirements: {
       windows: requirement(null, null, null, null, 'No fixed CPU minimum published', 'No fixed GPU minimum published', 'Windows 10 version 1903 or newer', sources.gimp, {
         minimumOsVersion: '10', architectures: ['x64', 'arm64'], allowUnpublishedHardware: true,
@@ -424,12 +444,16 @@ export const games = [
         minimumOsVersion: '11', architectures: ['x64', 'arm64'], allowUnpublishedHardware: true,
         notes: ['GIMP provides separate Intel and Apple Silicon builds.', 'Complex documents and many layers can require substantial memory even though no fixed RAM minimum is published.'],
       }),
+      linux: requirement(null, null, null, null, 'No fixed CPU minimum published', 'No fixed GPU minimum published', 'GNU/Linux; GIMP AppImage currently targets Debian 13 or newer distributions', sources.gimp, {
+        architectures: ['x64', 'arm64'], allowUnpublishedHardware: true,
+        notes: ['GIMP provides native GNU/Linux downloads for x86_64 and ARM64 plus Flatpak/Snap options.', 'Package requirements vary by distribution and packaging method.'],
+      }),
     },
   },
   {
     id: 'krita', name: 'Krita', shortName: 'K', category: 'app', genre: 'Digital painting', color: '#7c4dff',
     description: 'Digital painting, illustration, and animation with tablet support.',
-    platforms: ['windows', 'macos'], sourceUrl: sources.krita, sourceUrls: [sources.krita],
+    platforms: ['windows', 'macos', 'linux'], sourceUrl: sources.krita, sourceUrls: [sources.krita],
     requirements: {
       windows: requirement(4, null, null, 2, 'No fixed CPU minimum published', 'OpenGL 3.0 or Direct3D 11', 'Windows 8.1 or newer', sources.krita, {
         minimumOsVersion: '8.1', allowUnpublishedHardware: true, recommended: { ram: 16, gpuScore: 3 },
@@ -439,12 +463,16 @@ export const games = [
         minimumOsVersion: '10.15', allowUnpublishedHardware: true, recommended: { ram: 16, gpuScore: 3 },
         notes: ['Krita requires 4 GB RAM and recommends 16 GB.', 'Heavy brushes, animation, and large canvases can use substantially more memory.'],
       }),
+      linux: requirement(4, null, null, 2, 'No fixed CPU minimum published', 'OpenGL 3.0 or newer', '64-bit Linux', sources.krita, {
+        allowUnpublishedHardware: true, recommended: { ram: 16, gpuScore: 3 },
+        notes: ['Krita publishes a native 64-bit Linux AppImage and also lists Flatpak and Snap options.', '4 GB RAM is the published minimum; 16 GB is recommended.'],
+      }),
     },
   },
   {
     id: 'godot', name: 'Godot Engine', shortName: 'GD', category: 'app', genre: 'Game development', color: '#478cbf',
     description: 'Build 2D and 3D games with the Godot editor. Renderer choice changes the graphics requirement.',
-    platforms: ['windows', 'macos', 'android'], sourceUrl: sources.godot, sourceUrls: [sources.godot],
+    platforms: ['windows', 'macos', 'linux', 'android'], sourceUrl: sources.godot, sourceUrls: [sources.godot],
     requirements: {
       windows: requirement(4, 0.2, 1, 2, 'x86 CPU with SSE2/SSE4.2 or ARMv8 CPU', 'OpenGL 3.3 compatibility renderer or Vulkan 1.0', 'Windows 10 or newer', sources.godot, {
         minimumOsVersion: '10', recommended: { ram: 8, cpuScore: 4, gpuScore: 4 },
@@ -453,6 +481,10 @@ export const games = [
       macos: requirement(4, 0.2, 1, 2, 'x86_64 or Apple Silicon CPU', 'OpenGL 3.3 compatibility renderer or supported modern renderer', 'macOS 10.13+ for Compatibility; newer macOS for other renderers', sources.godot, {
         minimumOsVersion: '10.13', recommended: { ram: 8, cpuScore: 4, gpuScore: 4 },
         notes: ['Renderer and CPU architecture can raise the practical macOS requirement.', 'Export templates require additional storage.'],
+      }),
+      linux: requirement(4, 0.2, 1, 2, 'x86_64 with SSE4.2 or ARMv7/ARMv8 CPU', 'OpenGL 3.3 compatibility renderer or Vulkan 1.0 capable GPU', 'Linux desktop distribution supported by the current Godot build', sources.godot, {
+        architectures: ['x64', 'arm64'], recommended: { ram: 8, cpuScore: 4, gpuScore: 4 },
+        notes: ['Godot supports Linux on x86 and ARM architectures; official download availability can vary by architecture.', 'Forward+ and Mobile renderers need Vulkan support; export templates require additional storage.'],
       }),
       android: requirement(3, 0.2, 1, 2, '32-bit or 64-bit ARM/x86 SoC', 'OpenGL ES 3.0 or Vulkan 1.0 capable GPU', 'Android 7.0+ for Compatibility renderer', sources.godot, {
         minimumOsVersion: '7.0', recommended: { ram: 6, cpuScore: 4, gpuScore: 4 },
@@ -463,7 +495,7 @@ export const games = [
   {
     id: 'android-studio', name: 'Android Studio', shortName: 'AS', category: 'app', genre: 'App development', color: '#3ddc84',
     description: 'Google’s IDE for Android development. The emulator is much more demanding than the editor alone.',
-    platforms: ['windows', 'macos'], sourceUrl: sources.androidStudio, sourceUrls: [sources.androidStudio],
+    platforms: ['windows', 'macos', 'linux'], sourceUrl: sources.androidStudio, sourceUrls: [sources.androidStudio],
     requirements: {
       windows: requirement(8, 8, 3, 0, '2017+ CPU microarchitecture with hardware virtualization', 'Integrated graphics is sufficient for the IDE', '64-bit Windows 10 or newer', sources.androidStudio, {
         minimumOsVersion: '10', architectures: ['x64'], recommended: { ram: 32, cpuScore: 5 },
@@ -473,12 +505,16 @@ export const games = [
         minimumOsVersion: '12', architectures: ['x64', 'arm64'], recommended: { ram: 32, cpuScore: 5 },
         notes: ['Android Studio plus Emulator needs at least 16 GB RAM and 16 GB free space.', 'Google is phasing out Intel Mac support; latest Apple Silicon is recommended.'],
       }),
+      linux: requirement(8, 8, 3, 0, '2017+ x86_64 CPU with hardware virtualization support', 'Integrated graphics is sufficient for the IDE', '64-bit Linux with GNOME, KDE, or Unity and glibc 2.31+', sources.androidStudio, {
+        architectures: ['x64'], recommended: { ram: 32, cpuScore: 5 },
+        notes: ['Google does not currently support ARM-based Linux CPUs for Android Studio.', 'Studio plus Emulator needs at least 16 GB RAM and 16 GB free space; 32 GB RAM is recommended.'],
+      }),
     },
   },
   {
     id: 'docker-desktop', name: 'Docker Desktop', shortName: 'DK', category: 'app', genre: 'Development tools', color: '#2496ed',
     description: 'Run Linux containers locally with Docker Desktop. Virtualization and OS features are mandatory.',
-    platforms: ['windows', 'macos'], sourceUrl: sources.dockerWindows, sourceUrls: [sources.dockerWindows, sources.dockerMac],
+    platforms: ['windows', 'macos', 'linux'], sourceUrl: sources.dockerWindows, sourceUrls: [sources.dockerWindows, sources.dockerMac, sources.dockerLinux],
     requirements: {
       windows: requirement(8, null, null, 0, 'Hardware virtualization must be enabled', 'No dedicated GPU requirement', 'Supported 64-bit Windows 10/11 release', sources.dockerWindows, {
         minimumOsVersion: '10', allowUnpublishedHardware: true,
@@ -487,6 +523,10 @@ export const games = [
       macos: requirement(4, null, 1, 0, 'Supported Intel or Apple Silicon Mac', 'No dedicated GPU requirement', 'Current or one of the two previous major macOS releases', sources.dockerMac, {
         minimumOsVersion: '14', architectures: ['x64', 'arm64'], allowUnpublishedHardware: true,
         notes: ['Docker supports the current and two previous major macOS releases.', 'Rosetta 2 is recommended for some optional amd64 command-line tools on Apple Silicon.'],
+      }),
+      linux: requirement(4, null, null, 0, '64-bit x86 CPU with virtualization and KVM support', 'No dedicated GPU requirement', 'Supported Ubuntu, Debian, RHEL, or Fedora release with systemd; QEMU 5.2+', sources.dockerLinux, {
+        architectures: ['x64'], allowUnpublishedHardware: true,
+        notes: ['Docker Desktop for Linux requires KVM virtualization, a 64-bit kernel, QEMU 5.2+, systemd, and at least 4 GB RAM.', 'Docker also provides Docker Engine separately; this profile is specifically for Docker Desktop.'],
       }),
     },
   },
