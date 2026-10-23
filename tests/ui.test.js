@@ -54,13 +54,6 @@ test('device UI shows exact configuration labels instead of only marketing names
 });
 
 
-test('RUN AI exposes Groq branding and safe quick prompts', async () => {
-  const app = await readFile(appUrl, 'utf8');
-  assert.match(app, /RUN\/\/AI · GROQ/);
-  assert.match(app, /MODEL \/\/ GPT-OSS-120B/);
-  assert.match(app, /data-ai-prompt=/);
-  assert.match(app, /The Groq API key stays server-side/);
-});
 
 
 test('Linux is exposed in the custom-spec flow with reusable PC hardware', async () => {
@@ -82,4 +75,13 @@ test('smooth collision-safe UI includes mobile stacking and shrink guards', asyn
   assert.match(styles, /dialog\{[\s\S]*max-height:min\(86vh,860px\)/);
   assert.match(styles, /overflow-wrap:anywhere/);
   assert.match(assistant, /Smooth RUN\/\/AI layout/);
+});
+
+
+test('RUN AI exposes Gemini primary with Groq fallback messaging', async () => {
+  const app = await readFile(appUrl, 'utf8');
+  assert.match(app, /RUN\/\/AI · GEMINI \+ GROQ/);
+  assert.match(app, /PRIMARY \/\/ GEMINI 3\.8 FLASH/);
+  assert.match(app, /FALLBACK \/\/ GROQ/);
+  assert.match(app, /API keys stay server-side/);
 });
